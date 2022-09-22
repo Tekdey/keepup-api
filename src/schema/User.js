@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
 const { Schema, SchemaTypes } = mongoose;
+const bcrypt = require("bcrypt");
 
 const User = new Schema({
   firstname: {
@@ -82,13 +83,64 @@ const User = new Schema({
     type: SchemaTypes.Number,
   },
   updated_at: {
-    //TODO: add date with mongoose middleware
     type: SchemaTypes.Date,
   },
   created_at: {
-    //TODO: add date with mongoose middleware
     type: SchemaTypes.Date,
   },
+});
+
+//  Methods
+
+/**
+ * Hash user password
+ * @param {String} password user password
+ */
+User.methods.setPassword = async function (password) {
+  this.password = await bcrypt.hash(password, 12);
+};
+/**
+ * Validate user password
+ * @param {String} password user password
+ * @returns {Boolean} is valid password or not
+ */
+User.methods.validatePassword = async function (password) {
+  const isValid = await bcrypt.compare(password, this.password);
+  return isValid;
+};
+
+//  Middleware
+
+/**
+ * Pre middleware listening on findOneAndUpdate()
+ * Update with the current date
+ * @param {Function} next Next
+ */
+User.pre("save", function (next) {
+  this.updated_at = Date.now();
+  this.created_at = Date.now();
+  next();
+});
+
+/**
+ * Pre middleware listening on findOneAndUpdate()
+ * Update with the current date
+ * @param {Function} next Next
+ */
+User.pre("save", function (next) {
+  this.updated_at = Date.now();
+
+  next();
+});
+
+/**
+ * Pre middleware listening on findOneAndUpdate()
+ * Update with the current date
+ * @param {Function} next Next
+ */
+User.pre("findOneAndUpdate", function (next) {
+  this.updated_at = Date.now();
+  next();
 });
 
 module.exports = mongoose.model("user", User, "user");
