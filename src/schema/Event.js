@@ -31,16 +31,11 @@ const Event = new Schema({
   },
   max: {
     type: SchemaTypes.Number,
-    validate: {
-      min: [
-        0,
-        "Le nombre de participant ne peut pas être inférieurs a {VALUE}",
-      ],
-      max: [
-        100,
-        "Le nombre de participant ne peut pas être supérieurs a {VALUE}",
-      ],
-    },
+    min: [0, "Le nombre de participant ne peut pas être inférieurs a {VALUE}"],
+    max: [
+      100,
+      "Le nombre de participant ne peut pas être supérieurs a {VALUE}",
+    ],
   },
   date: {
     type: SchemaTypes.Date,
