@@ -35,6 +35,7 @@ const User = new Schema({
     },
     unique: true,
     required: [true, "L'email est requis"],
+    lowercase: true,
     // index: true,
   },
   password: {
@@ -46,12 +47,40 @@ const User = new Schema({
     default:
       "http://image.noelshack.com/fichiers/2022/38/4/1663838623-default-user-image.png",
   },
-  age: {
+  dob: {
     //TODO: calculate his age with mongoose middleware
-    type: SchemaTypes.Number,
-    required: [true, "Veuillez entrer votre age"],
-    min: [15, "Il faut avoir minimum 15 ans pour vous inscrire sur Keep'up"],
-    max: [100, "Votre age ne doit pas être supérieur a 100 ans"],
+    type: SchemaTypes.String,
+    required: [true, "Veuillez entrer votre date de naissance"],
+    validate: {
+      validator: function (bod) {
+        const userBodYear = bod.split("/");
+        // bod = DD/MM/AAAA
+        const now = new Date();
+        const year = now.getFullYear();
+        const age = year - userBodYear[2];
+
+        if (age < 15 || age > 100 || userBodYear.length !== 3) {
+          return false;
+        }
+      },
+      message: (props) => {
+        console.log(props);
+        const userBodYear = props.value?.split("/");
+        // bod = DD/MM/AAAA
+        const now = new Date();
+        const year = now.getFullYear();
+        const age = year - userBodYear[2];
+
+        if (userBodYear.length !== 3) {
+          return "La date de naissance est invalide";
+        }
+        if (age < 15) {
+          return "Il faut avoir minimum 15 ans pour vous inscrire sur Keep'up";
+        } else if (age > 100) {
+          return "Votre age ne doit pas être supérieur a 100 ans";
+        }
+      },
+    },
   },
   description: {
     type: SchemaTypes.String,
