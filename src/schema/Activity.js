@@ -15,4 +15,6 @@ const Activity = new Schema({
   },
 });
 
+Activity.index({ category: 1, name: 1 });
+
 module.exports = mongoose.model("activity", Activity, "activity");
