@@ -84,4 +84,9 @@ const Event = new Schema({
 
 Event.index({ city: 1, zipcode: 1, date: 1, sport: 1, level: 1 });
 
+Event.pre("save", function (next) {
+  this.created_at = Date.now();
+  next();
+});
+
 module.exports = mongoose.model("event", Event, "event");
