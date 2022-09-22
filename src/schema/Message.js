@@ -24,4 +24,9 @@ const Message = new Schema({
 
 Message.index({ receiver: 1 });
 
+Message.pre("save", function (next) {
+  this.created_at = Date.now();
+  next();
+});
+
 module.exports = mongoose.model("message", Message, "message");
