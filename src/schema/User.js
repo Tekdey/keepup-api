@@ -64,7 +64,6 @@ const User = new Schema({
         }
       },
       message: (props) => {
-        console.log(props);
         const userBodYear = props.value?.split("/");
         // bod = DD/MM/AAAA
         const now = new Date();

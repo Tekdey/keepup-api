@@ -59,7 +59,6 @@ describe("User model", () => {
     const userWithoutRequiredField = new schema["User"]({ gender: "Homme" });
     let err;
     try {
-      console.log(userWithoutRequiredField);
       await userWithoutRequiredField.save();
     } catch (error) {
       err = error;
@@ -89,12 +88,10 @@ describe("User model", () => {
     });
     let err;
     try {
-      console.log(userWithoutRequiredField);
       await userWithoutRequiredField.save();
     } catch (error) {
       err = error;
     }
-    console.log(err);
     expect(err).toBeInstanceOf(mongoose.Error.ValidationError);
     expect(err.errors.gender).toBeDefined();
   });
@@ -112,12 +109,10 @@ describe("User model", () => {
     });
     let err;
     try {
-      console.log(userWithoutRequiredField);
       await userWithoutRequiredField.save();
     } catch (error) {
       err = error;
     }
-    console.log(err);
     expect(err).toBeInstanceOf(mongoose.Error.ValidationError);
     expect(err.errors["sports.0.sport"]).toBeDefined();
     expect(err.errors["sports.0.level"]).toBeDefined();
@@ -131,13 +126,11 @@ describe("User model", () => {
     });
     let err;
     try {
-      console.log(userWithInvalidDob);
       await userWithInvalidDob.save();
     } catch (error) {
       err = error;
     }
 
-    console.log(err);
     expect(err).toBeInstanceOf(mongoose.Error.ValidationError);
     expect(err.errors["dob"]).toBeDefined();
   });
