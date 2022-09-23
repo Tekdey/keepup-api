@@ -36,7 +36,6 @@ const User = new Schema({
     unique: true,
     required: [true, "L'email est requis"],
     lowercase: true,
-    // index: true,
   },
   password: {
     type: SchemaTypes.String,
@@ -48,7 +47,6 @@ const User = new Schema({
       "http://image.noelshack.com/fichiers/2022/38/4/1663838623-default-user-image.png",
   },
   dob: {
-    //TODO: calculate his age with mongoose middleware
     type: SchemaTypes.String,
     required: [true, "Veuillez entrer votre date de naissance"],
     validate: {
@@ -64,7 +62,6 @@ const User = new Schema({
         }
       },
       message: (props) => {
-        console.log(props);
         const userBodYear = props.value?.split("/");
         // bod = DD/MM/AAAA
         const now = new Date();
@@ -171,5 +168,7 @@ User.pre("findOneAndUpdate", function (next) {
   this.updated_at = Date.now();
   next();
 });
+
+User.index({ email: 1 });
 
 module.exports = mongoose.model("user", User, "user");
