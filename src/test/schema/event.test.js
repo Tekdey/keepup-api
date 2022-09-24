@@ -1,4 +1,4 @@
-const schema = require("../schema");
+const schema = require("../../schema");
 const { faker } = require("@faker-js/faker");
 const { mongoose } = require("mongoose");
 

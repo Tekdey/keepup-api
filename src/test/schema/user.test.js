@@ -1,7 +1,6 @@
-const schema = require("../schema");
+const schema = require("../../schema");
 const { faker } = require("@faker-js/faker");
 const { mongoose } = require("mongoose");
-const User = require("../schema/User");
 
 const userData = {
   firstname: faker.name.firstName(),
@@ -120,7 +119,7 @@ describe("User model", () => {
 
   // It should us tell us the errors in age field
   it("crate a user with invalid date of birth", async () => {
-    const userWithInvalidDob = new User({
+    const userWithInvalidDob = new schema["User"]({
       ...userData,
       dob: "10/12/1000",
     });
