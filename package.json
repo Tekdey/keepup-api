@@ -6,7 +6,7 @@
   "scripts": {
     "start": "node index.js",
     "dev": "nodemon node index.js",
-    "test": "jest --detectOpenHandles"
+    "test": "jest src/test/helper"
   },
   "repository": {
     "type": "git",
