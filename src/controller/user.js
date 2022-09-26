@@ -1,16 +1,15 @@
 const datamapper = require("../data/datamapper");
 const { createError } = require("../helper/error/handler");
-const { User } = require("../schema/");
+const jwt = require("../helper/jwt");
 
 module.exports = {
-  async register(req, res, next) {
-    const body = req.body;
+  async create({ body }, res, next) {
     try {
-      const exists = await datamapper["user"].findOne({ email: body.email });
+      const exists = await datamapper.user.findOne({ email: body.email });
       if (exists) {
         createError(401, "Email already taken");
       }
-      const user = await datamapper["user"].create(body);
+      const user = await datamapper.user.create(body);
 
       try {
         await user.save();
@@ -18,7 +17,10 @@ module.exports = {
         return next(error);
       }
 
-      return res.status(200).json(user);
+      const access = jwt.sign({ access: { email: user.email } });
+      const refresh = jwt.sign({ refresh: { email: user.email } });
+
+      return res.status(200).json({ access, refresh });
     } catch (error) {
       next(error);
     }

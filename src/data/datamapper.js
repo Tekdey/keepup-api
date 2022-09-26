@@ -25,4 +25,13 @@ module.exports = {
       return newUser;
     },
   },
+  event: {
+    async create(event) {
+      if (!event) {
+        throw error;
+      }
+
+      return Event(event);
+    },
+  },
 };
