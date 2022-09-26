@@ -22,8 +22,16 @@ module.exports = {
       await newUser.setPassword(user.password);
       delete user.password;
 
-      newUser.save();
       return newUser;
+    },
+  },
+  event: {
+    async create(event) {
+      if (!event) {
+        throw error;
+      }
+
+      return Event(event);
     },
   },
 };
