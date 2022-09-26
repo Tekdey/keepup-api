@@ -87,9 +87,13 @@ const User = new Schema({
       level: {
         type: SchemaTypes.String,
         required: [true, "Le level est requis"],
+        enum: {
+          values: ["Débutant", "Intermediaire", "Expert"],
+          message: `Le level '{VALUE}' n'est pas autorisé`,
+        },
       },
       sport: {
-        type: SchemaTypes.String,
+        type: SchemaTypes.ObjectId,
         required: [true, "Le sport est requis"],
       },
     },

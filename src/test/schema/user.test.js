@@ -80,7 +80,7 @@ describe("User model", () => {
       gender: "WrongEnumValue",
       sports: [
         {
-          sport: faker.word.noun(),
+          sport: "632c41bcea31337d86eb1205",
           level: "WrongEnumValue",
         },
       ],
