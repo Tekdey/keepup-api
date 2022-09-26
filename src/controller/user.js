@@ -17,13 +17,16 @@ module.exports = {
         return next(error);
       }
 
-      const access = jwt.sign({ access: { email: user.email } });
-      const refresh = jwt.sign({ refresh: { email: user.email } });
+      const access = jwt.sign({ access: { id: user._id } });
+      const refresh = jwt.sign({ refresh: { id: user._id } });
 
       return res.status(200).json({ access, refresh });
     } catch (error) {
       next(error);
     }
+  },
+  hello(req, res, next) {
+    res.send(req.user);
   },
 };
 
