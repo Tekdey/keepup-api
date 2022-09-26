@@ -7,4 +7,6 @@ router.param("collection", param.collection);
 // Dynamic controller
 router.post("/create/:collection", dynamicController(controller));
 
+router.post("/login/", user.login);
+
 module.exports = router;

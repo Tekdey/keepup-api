@@ -25,12 +25,31 @@ module.exports = {
       next(error);
     }
   },
-  hello(req, res, next) {
-    res.send(req.user);
+
+  async login(req, res, next) {
+    let access = "";
+    let refresh = "";
+    const body = req.body;
+    console.log(body);
+    try {
+      const user = await datamapper.user.findOne({ email: body.email });
+      console.log(user);
+      if (!user) {
+        createError(401, "Email or password incorrect");
+      }
+      if (await user.validatePassword(body.password)) {
+        access = jwt.sign({ access: { email: user._id } });
+        refresh = jwt.sign({ refresh: { email: user._id } });
+      } else {
+        createError(401, "Email or password incorrect");
+      }
+
+      return res.status(200).json({ access, refresh });
+    } catch (error) {
+      next(error);
+    }
   },
 };
-
-// {
 // 	"firstname":"Lorem",
 // 	"lastname":"Ipsum",
 // 	"handicap":true,
