@@ -25,10 +25,18 @@ module.exports = {
    * @param {__} __
    */
   manager(err, req, res, next) {
+    console.log("_________________");
+    console.log(err);
+    console.log("_________________");
+
     /**
      * Error Handler
      */
     switch (err.code) {
+      case 401:
+        res.status(err.code).json({ status: "Error", error: err.message });
+        break;
+
       case 404:
         res.status(err.code).json({ status: "Error", error: err.message });
         break;
