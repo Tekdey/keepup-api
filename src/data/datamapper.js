@@ -4,33 +4,34 @@ const jwt = require("../helper/jwt");
 
 module.exports = {
   user: {
-    async findOne(email) {
-      try {
-        if (!email) {
-          throw error;
-        }
-
-        return await User.findOne({ email });
-      } catch (error) {
+    async findOne(obj) {
+      if (!obj) {
         throw error;
       }
+      const searchKey = Object.keys(obj)[0];
+
+      return await User.findOne({ [searchKey]: Object.values(obj)[0] });
     },
     async create(user) {
-      try {
-        if (!user) {
-          throw error;
-        }
-
-        const newUser = User(user);
-
-        await newUser.setPassword(user.password);
-        delete user.password;
-
-        newUser.save();
-        return newUser;
-      } catch (error) {
+      if (!user) {
         throw error;
       }
+
+      const newUser = User(user);
+
+      await newUser.setPassword(user.password);
+      delete user.password;
+
+      return newUser;
+    },
+  },
+  event: {
+    async create(event) {
+      if (!event) {
+        throw error;
+      }
+
+      return Event(event);
     },
   },
 };
