@@ -1,3 +1,5 @@
+require("dotenv").config();
+
 class Mongoose {
   constructor() {
     this.mongoose = require("mongoose");

@@ -13,6 +13,9 @@ const Activity = new Schema({
     required: [true, "Le nom de l'activité est requise"],
     lowercase: true,
   },
+  icon: {
+    type: SchemaTypes.String,
+  },
 });
 
 Activity.index({ category: 1, name: 1 });
