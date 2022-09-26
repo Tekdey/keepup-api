@@ -6,15 +6,14 @@ module.exports = {
   async register(req, res, next) {
     const body = req.body;
     try {
-      const exists = await datamapper.user.findOne(body.email, true);
+      const exists = await datamapper.user.findOne({ email: body.email });
       if (exists) {
         createError(401, "Email already taken");
       }
       const user = await datamapper.user.create(body);
-      console.log(user);
       return res.status(200).json(user);
     } catch (error) {
-      throw error;
+      next(error);
     }
   },
 };
