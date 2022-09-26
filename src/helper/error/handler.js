@@ -1,3 +1,5 @@
+const { mongoose } = require("mongoose");
+
 module.exports = {
   /**
    * Throw a custom error
@@ -26,14 +28,23 @@ module.exports = {
    */
   manager(err, req, res, next) {
     console.log("_________________");
-    console.log(err);
+    console.log(err.message);
     console.log("_________________");
+
+    if (err instanceof mongoose.Error.ValidationError) {
+      err.message = err.message?.split(":")[2]?.trim();
+      err.code = 403;
+    }
 
     /**
      * Error Handler
      */
     switch (err.code) {
       case 401:
+        res.status(err.code).json({ status: "Error", error: err.message });
+        break;
+
+      case 403:
         res.status(err.code).json({ status: "Error", error: err.message });
         break;
 

@@ -1,6 +1,9 @@
 const router = require("express").Router();
 const { user } = require("../controller");
+const { user: param } = require("../middleware/parameter");
 
-router.post("/create/", user.register);
+// Defining the router param with its value
+router.param("collection", param.collection);
+router.post("/create/:collection", user.register);
 
 module.exports = router;
