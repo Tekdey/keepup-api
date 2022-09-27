@@ -33,7 +33,6 @@ module.exports = {
 
     try {
       const user = await datamapper.user.findOne({ email: body.email });
-      console.log(user);
       if (!user) {
         createError(401, "Email or password incorrect");
       }
