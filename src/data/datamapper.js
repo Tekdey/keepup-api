@@ -1,5 +1,6 @@
 const { createError } = require("../helper/error/handler");
 const { User } = require("../schema");
+const { Activity } = require("../schema");
 const jwt = require("../helper/jwt");
 
 module.exports = {
@@ -12,6 +13,7 @@ module.exports = {
 
       return await User.findOne({ [searchKey]: Object.values(obj)[0] });
     },
+
     async create(user) {
       if (!user) {
         throw error;
@@ -24,6 +26,12 @@ module.exports = {
 
       newUser.save();
       return newUser;
+    },
+  },
+
+  activity: {
+    async findAll() {
+      return await Activity.find();
     },
   },
 };
