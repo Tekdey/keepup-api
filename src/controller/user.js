@@ -49,12 +49,12 @@ module.exports = {
     }
   },
 
-  async getUser(req, res, next) {
+  async getOne(req, res, next) {
     try {
       const user = await datamapper.user.findOne({ _id: req.params.id });
 
-      if (!user) {
-        createError(401, "this user doesn not exist");
+      if (!user._id) {
+        next(createError(403, "This user does not exist"));
       }
 
       return res.status(200).json({ user: user });
@@ -62,6 +62,20 @@ module.exports = {
       next(error);
     }
   },
+
+  // async formSignup(req,res,next){
+  //   try {
+  //     const sports = await datamapper.activity.findAll({});
+  //     if (!sports) {
+  //       createError(401, "no sports found");
+  //     }
+  //     const level = User.schema.path("sports.level").enumValues;
+
+  //     return res.status(200).json({ sports: sports, level: level });
+  //   } catch (error) {
+  //     next(error);
+  //   }
+  // }
 };
 // 	"firstname":"Lorem",
 // 	"lastname":"Ipsum",

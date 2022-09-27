@@ -11,7 +11,11 @@ module.exports = {
       }
       const searchKey = Object.keys(obj)[0];
 
-      return await User.findOne({ [searchKey]: Object.values(obj)[0] });
+      try {
+        return await User.findOne({ [searchKey]: Object.values(obj)[0] });
+      } catch (error) {
+        return error;
+      }
     },
 
     async create(user) {
@@ -27,18 +31,18 @@ module.exports = {
       return newUser;
     },
   },
-event: {
+  event: {
     async create(event) {
       if (!event) {
         throw error;
       }
 
       return Event(event);
-    }
+    },
   },
   activity: {
     async findAll() {
-      return await Activity.find();
-    }
+      return await Activity.find({});
+    },
   },
 };
