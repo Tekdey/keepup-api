@@ -42,7 +42,7 @@ module.exports = {
         // participant: Joi.string(),
         country: Joi.string(),
         city: Joi.string().required(),
-        zipcode: Joi.boolean().required(),
+        zipcode: Joi.number().required(),
         longitude: Joi.string(),
         latitude: Joi.string(),
       })
