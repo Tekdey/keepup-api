@@ -1,7 +1,9 @@
 const router = require("express").Router();
 const { user } = require("../controller");
-const { authenticate } = require("../middleware");
+const { activity } = require("../controller");
 
-router.get("/hello", authenticate, user.hello);
+router.get("/", user.register);
+router.get("/user/:id/", user.getUser);
+router.get("/sports/", activity.getSports);
 
 module.exports = router;
