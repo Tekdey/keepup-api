@@ -71,12 +71,11 @@ const Event = new Schema({
     type: SchemaTypes.Number,
     required: true,
   },
-  longitude: {
-    type: SchemaTypes.Number,
-  },
-  latitude: {
-    type: SchemaTypes.Number,
-  },
+  coordinates: [
+    { latitude: { type: SchemaTypes.Number } },
+    { longitude: { type: SchemaTypes.Number } },
+  ],
+
   created_at: {
     type: SchemaTypes.Date,
   },

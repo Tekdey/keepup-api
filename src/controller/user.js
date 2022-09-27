@@ -30,7 +30,7 @@ module.exports = {
     let access = "";
     let refresh = "";
     const body = req.body;
-    console.log(body);
+
     try {
       const user = await datamapper.user.findOne({ email: body.email });
       console.log(user);
@@ -45,6 +45,20 @@ module.exports = {
       }
 
       return res.status(200).json({ access, refresh });
+    } catch (error) {
+      next(error);
+    }
+  },
+
+  async getUser(req, res, next) {
+    try {
+      const user = await datamapper.user.findOne({ _id: req.params.id });
+
+      if (!user) {
+        createError(401, "this user doesn not exist");
+      }
+
+      return res.status(200).json({ user: user });
     } catch (error) {
       next(error);
     }
