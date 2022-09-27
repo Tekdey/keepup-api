@@ -30,8 +30,8 @@ module.exports = {
         createError(401, "Email or password incorrect");
       }
       if (await user.validatePassword(body.password)) {
-        access = jwt.sign({ access: { email: user.email } });
-        refresh = jwt.sign({ refresh: { email: user.email } });
+        access = jwt.sign({ access: { email: user._id } });
+        refresh = jwt.sign({ refresh: { email: user._id } });
       } else {
         createError(401, "Email or password incorrect");
       }
