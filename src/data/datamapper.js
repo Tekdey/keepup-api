@@ -11,7 +11,11 @@ module.exports = {
       }
       const searchKey = Object.keys(obj)[0];
 
-      return await User.findOne({ [searchKey]: Object.values(obj)[0] });
+      try {
+        return await User.findOne({ [searchKey]: Object.values(obj)[0] });
+      } catch (error) {
+        return error;
+      }
     },
 
     async create(user) {
@@ -26,19 +30,27 @@ module.exports = {
 
       return newUser;
     },
+
+    async updateOne(user, newInfo) {
+      if (!user) {
+        throw error;
+      }
+
+      return await User.updateOne(user, newInfo);
+    },
   },
-event: {
+  event: {
     async create(event) {
       if (!event) {
         throw error;
       }
 
       return Event(event);
-    }
+    },
   },
   activity: {
-    async findAll() {
-      return await Activity.find();
-    }
+    async findAll(filter, sort) {
+      return await Activity.find(filter, sort).lean();
+    },
   },
 };
