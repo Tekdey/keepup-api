@@ -21,4 +21,14 @@ module.exports = {
       }
     };
   },
+  search(schema) {
+    return ({ body }, _, next) => {
+      const { error } = schema().validate(body);
+      if (error) {
+        createError(401, error.message);
+      } else {
+        next();
+      }
+    };
+  },
 };

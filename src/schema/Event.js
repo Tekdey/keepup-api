@@ -37,6 +37,10 @@ const Event = new Schema({
     type: SchemaTypes.Date,
     required: true,
   },
+  period: {
+    start: { type: SchemaTypes.Number, required: true },
+    end: { type: SchemaTypes.Number, required: true },
+  },
   messages: [
     {
       type: SchemaTypes.ObjectId,
@@ -71,10 +75,11 @@ const Event = new Schema({
     type: SchemaTypes.Number,
     required: true,
   },
-  coordinates: [
-    { latitude: { type: SchemaTypes.Number } },
-    { longitude: { type: SchemaTypes.Number } },
-  ],
+  location: {
+    type: { type: SchemaTypes.String, enum: ["Point"], required: true },
+    coordinates: { type: [SchemaTypes.Number], required: true },
+  },
+
   created_at: {
     type: SchemaTypes.Date,
   },

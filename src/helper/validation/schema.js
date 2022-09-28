@@ -38,27 +38,59 @@ module.exports = {
         .max(14);
     },
     event() {
-      return Joi.object({
-        name: Joi.string().required(),
-        sport: Joi.string().required(),
-        level: Joi.string(),
-        gender: Joi.string(),
-        handicap: Joi.boolean(),
-        max: Joi.number(),
-        date: Joi.date().required(),
-        // messages: Joi.array(),
-        admin: Joi.string().required(),
-        // participant: Joi.string(),
-        country: Joi.string(),
-        address: Joi.string().required(),
-        city: Joi.string().required(),
-        zipcode: Joi.number().required(),
-        longitude: Joi.string(),
-        latitude: Joi.string(),
-      })
+      return Joi.object()
+        .keys({
+          name: Joi.string().required(),
+          description: Joi.string().required(),
+          sport: Joi.string().required(),
+          level: Joi.string(),
+          gender: Joi.string(),
+          max: Joi.number().integer(),
+          date: Joi.string().required(),
+          period: Joi.object().keys({ start: Joi.string(), end: Joi.string() }),
+          admin: Joi.string().required(),
+          country: Joi.string(),
+          address: Joi.string().required(),
+          city: Joi.string(),
+          zipcode: Joi.string(),
+          location: Joi.object().keys({
+            type: Joi.string(),
+            coordinates: Joi.array()
+              .items(Joi.number(), Joi.number())
+              .required(),
+          }),
+        })
         .required()
         .min(6)
         .max(15);
     },
+  },
+  search() {
+    return Joi.object()
+      .keys({
+        sport: Joi.string().allow(null).allow(""),
+        level: Joi.string().allow(null).allow(""),
+        gender: Joi.string().allow(null).allow(""),
+        city: Joi.string().allow(null).allow(""),
+        date: Joi.object()
+          .keys({ from: Joi.date(), to: Joi.date() })
+          .allow(null)
+          .allow(""),
+        period: Joi.object()
+          .keys({ start: Joi.string(), end: Joi.string() })
+          .allow(null)
+          .allow(""),
+        coordinates: Joi.array()
+          .items(Joi.number(), Joi.number())
+          .allow(null)
+          .allow(""),
+        location: Joi.object().keys({
+          type: Joi.string(),
+          coordinates: Joi.array().items(Joi.number(), Joi.number()).required(),
+        }),
+      })
+      .required()
+      .min(0)
+      .max(11);
   },
 };

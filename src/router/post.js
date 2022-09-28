@@ -18,5 +18,10 @@ router.post(
   validator.login(schema.login),
   controller.user.login
 );
+router.post(
+  "/events",
+  validator.search(schema.search),
+  controller.event.findEvents
+);
 
 module.exports = router;
