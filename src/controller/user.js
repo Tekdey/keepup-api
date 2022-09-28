@@ -1,6 +1,7 @@
 const datamapper = require("../data/datamapper");
 const { createError } = require("../helper/error/handler");
 const jwt = require("../helper/jwt");
+const User = require("../schema/User");
 
 module.exports = {
   async create({ body }, res, next) {
@@ -62,20 +63,24 @@ module.exports = {
       next(error);
     }
   },
+  async formSignup(req, res, next) {
+    try {
+      const sports = await datamapper.activity.findAll(
+        {},
+        { sport: 1, _id: 1 }
+      );
+      if (!sports) {
+        createError(403, "No sports found");
+      }
 
-  // async formSignup(req,res,next){
-  //   try {
-  //     const sports = await datamapper.activity.findAll({});
-  //     if (!sports) {
-  //       createError(401, "no sports found");
-  //     }
-  //     const level = User.schema.path("sports.level").enumValues;
+      const level = User.schema.path("sports.level").enumValues;
+      const gender = User.schema.path("gender").enumValues;
 
-  //     return res.status(200).json({ sports: sports, level: level });
-  //   } catch (error) {
-  //     next(error);
-  //   }
-  // }
+      return res.status(200).json({ level, gender, sports });
+    } catch (error) {
+      next(error);
+    }
+  },
 };
 // 	"firstname":"Lorem",
 // 	"lastname":"Ipsum",

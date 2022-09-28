@@ -41,8 +41,8 @@ module.exports = {
     },
   },
   activity: {
-    async findAll() {
-      return await Activity.find({});
+    async findAll(filter, sort) {
+      return await Activity.find(filter, sort).lean();
     },
   },
 };
