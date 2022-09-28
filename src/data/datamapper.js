@@ -30,6 +30,14 @@ module.exports = {
 
       return newUser;
     },
+
+    async updateOne(user, newInfo) {
+      if (!user) {
+        throw error;
+      }
+
+      return await User.updateOne(user, newInfo);
+    },
   },
   event: {
     async create(event) {

@@ -81,6 +81,24 @@ module.exports = {
       next(error);
     }
   },
+  async update({ body, params: { id: _id } }, res, next) {
+    try {
+      const { matchedCount } = await datamapper.user.updateOne(
+        { _id },
+        { ...body }
+      );
+
+      if (!matchedCount) {
+        createError(403, "User not found");
+      }
+
+      res
+        .status(200)
+        .json({ status: "Success", message: "Votre profil a été modifié" });
+    } catch (error) {
+      next(error);
+    }
+  },
 };
 // 	"firstname":"Lorem",
 // 	"lastname":"Ipsum",

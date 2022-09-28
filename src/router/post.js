@@ -15,4 +15,7 @@ router.post(
 
 router.post("/auth/login", controller.user.login);
 
+router.param(":id", param.id);
+router.post("/user/:id/update", controller.user.update);
+
 module.exports = router;
