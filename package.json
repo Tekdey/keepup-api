@@ -6,7 +6,7 @@
   "scripts": {
     "start": "node index.js",
     "dev": "nodemon node index.js",
-    "test": "jest src/test/router/POST/update_user.test.js"
+    "test": "jest src/test/router/PUT/update_user.test.js"
   },
   "repository": {
     "type": "git",

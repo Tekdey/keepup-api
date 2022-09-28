@@ -3,6 +3,7 @@ const error = require("../helper/error/handler");
 
 router.use(require("./get"));
 router.use(require("./post"));
+router.use(require("./put"));
 
 router.use(error.notFound);
 

@@ -51,4 +51,27 @@ module.exports = {
         .max(15);
     },
   },
+  user: {
+    update() {
+      return Joi.object({
+        firstname: Joi.string(),
+        lastname: Joi.string(),
+        handicap: Joi.boolean(),
+        gender: Joi.string(),
+        email: Joi.string().email(),
+        password: Joi.string(),
+        image_url: Joi.string(),
+        dob: Joi.string(),
+        description: Joi.string(),
+        // sports: Joi.array().items(sports),
+        city: Joi.string(),
+        zipcode: Joi.number(),
+        // longitude: Joi.string(),
+        // latitude: Joi.string(),
+      })
+        .required()
+        .min(0)
+        .max(14);
+    },
+  },
 };
