@@ -6,6 +6,15 @@ let sports = Joi.object().keys({
 });
 
 module.exports = {
+  login() {
+    return Joi.object({
+      email: Joi.string().email().required(),
+      password: Joi.string().required(),
+    })
+      .required()
+      .min(2)
+      .max(2);
+  },
   create: {
     user() {
       return Joi.object({
@@ -41,6 +50,7 @@ module.exports = {
         admin: Joi.string().required(),
         // participant: Joi.string(),
         country: Joi.string(),
+        address: Joi.string().required(),
         city: Joi.string().required(),
         zipcode: Joi.number().required(),
         longitude: Joi.string(),

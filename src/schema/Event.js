@@ -25,10 +25,6 @@ const Event = new Schema({
       message: `La clé '{VALUE}' n'est pas autorisé`,
     },
   },
-  handicap: {
-    type: SchemaTypes.Boolean,
-    required: true,
-  },
   max: {
     type: SchemaTypes.Number,
     min: [0, "Le nombre de participant ne peut pas être inférieurs a {VALUE}"],
@@ -63,6 +59,10 @@ const Event = new Schema({
     default: "France",
     required: true,
   },
+  address: {
+    type: SchemaTypes.String,
+    required: true,
+  },
   city: {
     type: SchemaTypes.String,
     required: true,
@@ -75,7 +75,6 @@ const Event = new Schema({
     { latitude: { type: SchemaTypes.Number } },
     { longitude: { type: SchemaTypes.Number } },
   ],
-
   created_at: {
     type: SchemaTypes.Date,
   },

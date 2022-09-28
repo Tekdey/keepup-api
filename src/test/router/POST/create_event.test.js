@@ -14,8 +14,7 @@ const event = () => {
     date: "06/03/2000",
     admin: "admin",
     country: faker.address.country(),
-    city: faker.address.cityName(),
-    zipcode: 30000,
+    address: faker.address.streetAddress(),
   };
 };
 

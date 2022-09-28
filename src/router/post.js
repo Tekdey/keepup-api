@@ -13,6 +13,10 @@ router.post(
   dynamicController(controller)
 );
 
-router.post("/auth/login", controller.user.login);
+router.post(
+  "/auth/login",
+  validator.login(schema.login),
+  controller.user.login
+);
 
 module.exports = router;
