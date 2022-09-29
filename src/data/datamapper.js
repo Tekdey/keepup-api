@@ -39,19 +39,19 @@ module.exports = {
       if (typeof body !== "object" && Object.keys(body).length !== 0) {
         throw error;
       }
-      if (body.sport !== null) {
+      if (body.sport) {
         query.sport = [body.sport];
       }
-      if (body.level !== null) {
+      if (body.level) {
         query.level = [body.level];
       }
-      if (body.genre !== null) {
+      if (body.genre) {
         query.genre = [body.genre];
       }
-      if (body.date !== null) {
+      if (body.date) {
         query.date = { $gte: body.date.from, $lt: body.date.to };
       }
-      if (body.period !== null) {
+      if (body.period) {
         const start = parseInt(body.period.start.replace(/:/g, ""));
         const end = parseInt(body.period.end.replace(/:/g, ""));
         query["period.start"] = { $gte: start, $lt: end };
