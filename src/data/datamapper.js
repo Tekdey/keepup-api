@@ -21,6 +21,26 @@ module.exports = {
         return error;
       }
     },
+    async getUserView(id) {
+      if (!id) {
+        throw error;
+      }
+      console.log(id);
+
+      try {
+        return await User.findOne(id, {
+          _id: 1,
+          image_url: 1,
+          firstname: 1,
+          city: 1,
+          gender: 1,
+          dob: 1,
+          sports: 1,
+        });
+      } catch (error) {
+        return error;
+      }
+    },
 
     async create(user) {
       if (!user) {
@@ -89,7 +109,7 @@ module.exports = {
       }
       return Event.findOne({ _id: id }).populate({
         path: "participant",
-        select: "_id firstname lastname gender dob city sports",
+        select: "_id  image_url firstname  gender dob city sports",
       });
     },
 
@@ -120,7 +140,10 @@ module.exports = {
           $near: { $geometry: body.location, $maxDistance: 10000 },
         };
       }
-      return await Event.find(query);
+      return await Event.find(query).populate({
+        path: "participant",
+        select: "_id  image_url firstname",
+      });
     },
   },
   activity: {
