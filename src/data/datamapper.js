@@ -107,10 +107,15 @@ module.exports = {
       if (!id) {
         throw error;
       }
-      return Event.findOne({ _id: id }).populate({
-        path: "participant",
-        select: "_id  image_url firstname  gender dob city sports",
-      });
+      return Event.findOne({ _id: id })
+        .populate({
+          path: "participant",
+          select: "_id  image_url firstname  gender dob city sports",
+        })
+        .populate({
+          path: "admin",
+          select: "_id  image_url firstname  gender dob city sports",
+        });
     },
 
     async find(body) {
