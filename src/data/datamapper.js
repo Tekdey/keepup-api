@@ -60,11 +60,37 @@ module.exports = {
 
       return newEvent;
     },
+    async updateOne(event, newInfo) {
+      if (!event) {
+        throw error;
+      }
+
+      return await Event.updateOne(event, newInfo);
+    },
+    async addUser(event, user) {
+      if (!event) {
+        throw error;
+      }
+      console.log(user);
+      const result = await Event.updateOne(
+        { _id: "633490ebf0805bc06edcbfe5" },
+        {
+          $push: { participant: "6331760ae17d6c76841f590e" },
+        }
+      );
+
+      console.log(result);
+
+      return result;
+    },
     async findOne(id) {
       if (!id) {
         throw error;
       }
-      return Event.findOne({_id:id});
+      return Event.findOne({ _id: id }).populate({
+        path: "participant",
+        select: "_id firstname lastname gender dob city sports",
+      });
     },
 
     async find(body) {
