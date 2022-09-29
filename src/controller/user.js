@@ -1,6 +1,7 @@
 const datamapper = require("../data/datamapper");
 const { createError } = require("../helper/error/handler");
 const jwt = require("../helper/jwt");
+const User = require("../schema/User");
 
 module.exports = {
   async create({ body }, res, next) {
@@ -49,15 +50,51 @@ module.exports = {
     }
   },
 
-  async getUser(req, res, next) {
+  async getOne(req, res, next) {
     try {
       const user = await datamapper.user.findOne({ _id: req.params.id });
 
-      if (!user) {
-        createError(401, "this user doesn not exist");
+      if (!user._id) {
+        next(createError(403, "This user does not exist"));
       }
 
       return res.status(200).json({ user: user });
+    } catch (error) {
+      next(error);
+    }
+  },
+  async formSignup(req, res, next) {
+    try {
+      const sports = await datamapper.activity.findAll(
+        {},
+        { sport: 1, _id: 1 }
+      );
+      if (!sports) {
+        createError(403, "No sports found");
+      }
+
+      const level = User.schema.path("sports.level").enumValues;
+      const gender = User.schema.path("gender").enumValues;
+
+      return res.status(200).json({ level, gender, sports });
+    } catch (error) {
+      next(error);
+    }
+  },
+  async update({ body, params: { id: _id } }, res, next) {
+    try {
+      const { matchedCount } = await datamapper.user.updateOne(
+        { _id },
+        { ...body }
+      );
+
+      if (!matchedCount) {
+        createError(403, "User not found");
+      }
+
+      res
+        .status(200)
+        .json({ status: "Success", message: "Votre profil a été modifié" });
     } catch (error) {
       next(error);
     }
