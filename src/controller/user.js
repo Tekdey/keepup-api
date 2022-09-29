@@ -63,6 +63,19 @@ module.exports = {
       next(error);
     }
   },
+  async getView(req, res, next) {
+    try {
+      const user = await datamapper.user.getUserView({ _id: req.params.id });
+
+      if (!user._id) {
+        next(createError(403, "This user does not exist"));
+      }
+
+      return res.status(200).json({ user: user });
+    } catch (error) {
+      next(error);
+    }
+  },
   async formSignup(req, res, next) {
     try {
       const sports = await datamapper.activity.findAll(

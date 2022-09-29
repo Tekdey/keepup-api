@@ -21,6 +21,26 @@ module.exports = {
         return error;
       }
     },
+    async getUserView(id) {
+      if (!id) {
+        throw error;
+      }
+      console.log(id);
+
+      try {
+        return await User.findOne(id, {
+          _id: 1,
+          image_url: 1,
+          firstname: 1,
+          city: 1,
+          gender: 1,
+          dob: 1,
+          sports: 1,
+        });
+      } catch (error) {
+        return error;
+      }
+    },
 
     async create(user) {
       if (!user) {
@@ -54,10 +74,43 @@ module.exports = {
       if (!event) {
         throw error;
       }
-
+      event.period.start = parseInt(event.period.start.replace(/:/g, ""));
+      event.period.end = parseInt(event.period.end.replace(/:/g, ""));
       const newEvent = new Event(event);
 
       return newEvent;
+    },
+    async updateOne(event, newInfo) {
+      if (!event) {
+        throw error;
+      }
+
+      return await Event.updateOne(event, newInfo);
+    },
+    async addUser(event, user) {
+      if (!event) {
+        throw error;
+      }
+      console.log(user);
+      const result = await Event.updateOne(
+        { _id: "633490ebf0805bc06edcbfe5" },
+        {
+          $push: { participant: "6331760ae17d6c76841f590e" },
+        }
+      );
+
+      console.log(result);
+
+      return result;
+    },
+    async findOne(id) {
+      if (!id) {
+        throw error;
+      }
+      return Event.findOne({ _id: id }).populate({
+        path: "participant",
+        select: "_id  image_url firstname  gender dob city sports",
+      });
     },
 
     async find(body) {
@@ -87,13 +140,15 @@ module.exports = {
           $near: { $geometry: body.location, $maxDistance: 10000 },
         };
       }
-      return await Event.find(query);
+      return await Event.find(query).populate({
+        path: "participant",
+        select: "_id  image_url firstname",
+      });
     },
   },
   activity: {
     async findAll() {
       return await Activity.find();
-      return Event(event);
     },
   },
   activity: {

@@ -11,5 +11,15 @@ router.put(
   //   validator(user.update),
   controller.user.addSport
 );
+router.put(
+  "/event/:id/update",
+  //   validator(event.update),
+  controller.event.update
+);
+router.put(
+  "/event/:id/add/participant/:user",
+  //   validator(event.update),
+  controller.event.addUser
+);
 
 module.exports = router;

@@ -34,4 +34,49 @@ module.exports = {
       next(error);
     }
   },
+  async getOne({ params: { id: _id } }, res, next) {
+    try {
+      const event = await datamapper.event.findOne(_id);
+
+      return res.status(200).json(event);
+    } catch (error) {
+      next(error);
+    }
+  },
+  async update({ body, params: { id: _id } }, res, next) {
+    try {
+      const { matchedCount } = await datamapper.event.updateOne(
+        { _id },
+        { ...body }
+      );
+
+      if (!matchedCount) {
+        createError(403, "Event not found");
+      }
+
+      res
+        .status(200)
+        .json({ status: "Success", message: "Votre event a été modifié" });
+    } catch (error) {
+      next(error);
+    }
+  },
+  async addUser({ params: { id: _id, user: user } }, res, next) {
+    console.log("########" + _id);
+    try {
+      const event = await datamapper.event.addUser({ _id }, user);
+
+      if (!event) {
+        createError(403, "Event not found");
+      }
+
+      res.status(200).json({
+        status: "Success",
+        message: "Votre event a été modifié",
+        event: event,
+      });
+    } catch (error) {
+      next(error);
+    }
+  },
 };
