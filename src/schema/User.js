@@ -94,6 +94,7 @@ const User = new Schema({
       },
       sport: {
         type: SchemaTypes.ObjectId,
+        ref: "activity",
         required: [true, "Le sport est requis"],
       },
     },
