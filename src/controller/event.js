@@ -34,4 +34,13 @@ module.exports = {
       next(error);
     }
   },
+  async getOne({ params: { id: _id } }, res, next) {
+    try {
+      const event = await datamapper.event.findOne(_id);
+
+      return res.status(200).json(event);
+    } catch (error) {
+      next(error);
+    }
+  },
 };

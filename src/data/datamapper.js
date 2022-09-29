@@ -54,10 +54,17 @@ module.exports = {
       if (!event) {
         throw error;
       }
-
+      event.period.start = parseInt(event.period.start.replace(/:/g, ""));
+      event.period.end = parseInt(event.period.end.replace(/:/g, ""));
       const newEvent = new Event(event);
 
       return newEvent;
+    },
+    async findOne(id) {
+      if (!id) {
+        throw error;
+      }
+      return Event.findOne({_id:id});
     },
 
     async find(body) {
@@ -93,7 +100,6 @@ module.exports = {
   activity: {
     async findAll() {
       return await Activity.find();
-      return Event(event);
     },
   },
   activity: {
