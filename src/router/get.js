@@ -8,4 +8,6 @@ router.get("/user/:id", user.getOne);
 
 router.get("/sports/", activity.getSports);
 
+router.get("/test", user.test);
+
 module.exports = router;

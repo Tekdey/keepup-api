@@ -119,6 +119,12 @@ module.exports = {
       next(error);
     }
   },
+  test(req, res, next) {
+    console.log("pass");
+    res.json({
+      msg: "Cors work well ???",
+    });
+  },
 };
 
 // 	"firstname":"Lorem",
