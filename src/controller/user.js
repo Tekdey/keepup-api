@@ -99,6 +99,26 @@ module.exports = {
       next(error);
     }
   },
+  async addSport({ body: sport, params: { id: _id } }, res, next) {
+    try {
+      const { matchedCount } = await datamapper.user.addSport(
+        { _id },
+        {
+          sports: { $push: sport },
+        }
+      );
+
+      if (!matchedCount) {
+        createError(403, "User not found");
+      }
+
+      res
+        .status(200)
+        .json({ status: "Success", message: "Vos sports ont été modifié" });
+    } catch (error) {
+      next(error);
+    }
+  },
 };
 // 	"firstname":"Lorem",
 // 	"lastname":"Ipsum",

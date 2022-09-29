@@ -1,6 +1,6 @@
 const router = require("express").Router();
-const { user } = require("../controller");
-const { activity } = require("../controller");
+const { user, activity } = require("../controller");
+const controller = require("../controller");
 
 router.get("/signup", user.formSignup);
 router.get("/user/:id", user.getOne);

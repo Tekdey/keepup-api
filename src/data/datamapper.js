@@ -12,7 +12,11 @@ module.exports = {
       const searchKey = Object.keys(obj)[0];
 
       try {
-        return await User.findOne({ [searchKey]: Object.values(obj)[0] });
+        return await User.findOne({
+          [searchKey]: Object.values(obj)[0],
+        }).populate({
+          path: "sports.sport",
+        });
       } catch (error) {
         return error;
       }
@@ -37,6 +41,16 @@ module.exports = {
       }
 
       return await User.updateOne(user, newInfo);
+    },
+
+    async addSport(user, { sports }) {
+      if (!user) {
+        throw error;
+      }
+
+      // console.log(sports);
+
+      return await User.updateOne(user, sports);
     },
   },
   event: {
