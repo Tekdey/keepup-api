@@ -100,6 +100,7 @@ module.exports = {
     }
   },
 };
+
 // 	"firstname":"Lorem",
 // 	"lastname":"Ipsum",
 // 	"handicap":true,

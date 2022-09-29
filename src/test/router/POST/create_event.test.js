@@ -7,13 +7,14 @@ const event = () => {
   return {
     name: faker.name.firstName(),
     sport: faker.name.lastName(),
-    level: faker.word.adverb(),
+    level: "Débutant",
     gender: "Homme",
     handicap: faker.datatype.boolean(),
     max: 30,
     date: "06/03/2000",
-    admin: "admin",
+    admin: "6331760ae98d6c76841f590e",
     country: faker.address.country(),
+    address: faker.address.streetAddress(),
     city: faker.address.cityName(),
     zipcode: 30000,
   };
