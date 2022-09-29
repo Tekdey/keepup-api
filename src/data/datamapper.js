@@ -29,9 +29,6 @@ module.exports = {
         throw error;
       }
 
-      event.period.start = parseInt(event.period.start.replace(/:/g, ""));
-      event.period.end = parseInt(event.period.end.replace(/:/g, ""));
-
       const newEvent = new Event(event);
 
       return newEvent;
