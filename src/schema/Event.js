@@ -3,12 +3,13 @@ const { Schema, SchemaTypes } = mongoose;
 
 const Event = new Schema({
   name: {
-    type: SchemaTypes.String,
+    type: SchemaTypes.ObjectId,
     required: true,
   },
   sport: {
-    type: SchemaTypes.String,
-    required: true,
+    type: SchemaTypes.ObjectId,
+    ref: "activity",
+    required: [true, "Le sport est requis"],
   },
   level: {
     type: SchemaTypes.String,
