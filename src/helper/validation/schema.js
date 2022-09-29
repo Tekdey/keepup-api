@@ -92,7 +92,7 @@ module.exports = {
       .required()
       .min(0)
       .max(11);
-    }
+  },
   user: {
     update() {
       return Joi.object({
