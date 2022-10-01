@@ -1,7 +1,18 @@
 const express = require("express");
-const app = express();
 const router = require("./router");
 const cors = require("cors");
+const { createServer } = require("http");
+
+const app = express();
+const httpServer = createServer(app);
+
+const io = require("socket.io")(httpServer, {
+  cors: {
+    origin: "*",
+    methods: "*",
+  },
+});
+
 // db connection
 const MongooseConfig = require("./config/MongooseConfig");
 const mongoose = new MongooseConfig();
@@ -20,6 +31,8 @@ app.use(express.json());
 app.use(require("morgan")("dev"));
 app.use("/api/v1", router);
 
+require("./service/socket").connect(io);
+
 module.exports = {
-  app,
+  app: httpServer,
 };
