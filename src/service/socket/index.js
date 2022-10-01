@@ -15,12 +15,12 @@ function connect(io) {
 
       socket.room = payload.event_id;
       payload.sender = "system";
-      payload.text = `${payload.firstname} à rejoint le chat !`;
+      payload.text = `${payload.firstname} est connecté !`;
 
       socket.in(socket.room).emit("user:join", payload);
       callback(false, {
         ...payload,
-        text: `Vous avez rejoint l'event de foot !`,
+        text: `Vous êtes connecté !`,
       });
     });
 
