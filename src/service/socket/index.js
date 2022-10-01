@@ -1,4 +1,6 @@
 // https://socket.io/how-to/use-with-express-session
+const { message: db } = require("../../data/datamapper");
+const ObjectId = require("mongoose").Types.ObjectId;
 
 function connect(io) {
   io.on("connection", (socket) => {
@@ -25,11 +27,26 @@ function connect(io) {
     /**
      * Send message sockets listeners
      */
-    socket.on("user:send", (message, callback) => {
-      console.log(message);
+    socket.on("user:send", async (message, callback) => {
       socket.in(socket.room).emit("user:send", message);
+      try {
+        if (
+          !ObjectId.isValid(message.sender._id) &&
+          !ObjectId.isValid(message.receiver)
+        ) {
+          throw new Error("id invalid");
+        }
+        const { instance, matchedCount } = await db.insert(message);
 
-      callback(false, message);
+        if (!matchedCount) {
+          throw new Error("event invalid");
+        }
+        instance.save();
+        callback(false, { ...message, _id: instance._id });
+      } catch (error) {
+        console.log(error);
+        callback(true, { error });
+      }
     });
 
     /**

@@ -158,15 +158,32 @@ module.exports = {
   },
   message: {
     async getMessagesByEvent(id) {
-      return await Event.findOne({ _id: id }).populate({
-        path: "messages",
-        select: "messages",
-      });
+      return await Event.findOne({ _id: id })
+        .populate({
+          path: "messages",
+          options: { sort: { created_at: -1 } },
+          populate: {
+            path: "sender",
+            select: "firstname _id",
+          },
+        })
+        .select({ messages: 1, _id: 0 });
     },
-    async insert(obj) {
-      const message = Message(obj);
+    async insert(socket) {
+      const schema = {
+        sender: socket.sender._id,
+        receiver: socket.receiver,
+        content: socket.content,
+      };
+      const message = Message(schema);
 
-      return message;
+      const { matchedCount } = await Event.updateOne(
+        { _id: socket.receiver },
+        {
+          $push: { messages: message._id },
+        }
+      );
+      return { instance: message, matchedCount };
     },
   },
 };
