@@ -1,5 +1,5 @@
 const { createError } = require("../helper/error/handler");
-const { User } = require("../schema");
+const { User, Message } = require("../schema");
 const { Activity } = require("../schema");
 const { Event } = require("../schema");
 
@@ -154,6 +154,19 @@ module.exports = {
   activity: {
     async findAll(filter, sort) {
       return await Activity.find(filter, sort).lean();
+    },
+  },
+  message: {
+    async getMessagesByEvent(id) {
+      return await Event.findOne({ _id: id }).populate({
+        path: "messages",
+        select: "messages",
+      });
+    },
+    async insert(obj) {
+      const message = Message(obj);
+
+      return message;
     },
   },
 };
