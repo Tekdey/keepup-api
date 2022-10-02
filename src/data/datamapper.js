@@ -1,5 +1,5 @@
 const { createError } = require("../helper/error/handler");
-const { User } = require("../schema");
+const { User, Message } = require("../schema");
 const { Activity } = require("../schema");
 const { Event } = require("../schema");
 
@@ -154,6 +154,42 @@ module.exports = {
   activity: {
     async findAll(filter, sort) {
       return await Activity.find(filter, sort).lean();
+    },
+  },
+  message: {
+    async getMessagesByEvent(id) {
+      return await Event.findOne({ _id: id })
+        .populate({
+          path: "messages",
+          options: { sort: { created_at: -1 } },
+          populate: {
+            path: "sender",
+            select: "firstname _id",
+          },
+        })
+        .select({ messages: 1, _id: 0 });
+    },
+    async insert(socket) {
+      const schema = {
+        sender: socket.sender._id,
+        receiver: socket.receiver,
+        content: socket.content,
+      };
+      const message = Message(schema);
+
+      const { matchedCount } = await Event.updateOne(
+        { _id: socket.receiver },
+        {
+          $push: { messages: message._id },
+        }
+      );
+      return { instance: message, matchedCount };
+    },
+    async deleteOne(id) {
+      const message = await Message.findByIdAndDelete({ _id: id });
+      console.log(message);
+
+      return message;
     },
   },
 };
