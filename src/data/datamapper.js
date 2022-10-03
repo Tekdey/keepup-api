@@ -119,7 +119,8 @@ module.exports = {
         .populate({
           path: "admin",
           select: "_id  image_url firstname  gender dob city sports",
-        });
+        })
+        .populate("sport");
     },
 
     async find(body) {

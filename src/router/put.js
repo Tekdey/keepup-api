@@ -23,7 +23,7 @@ router.put(
   controller.event.addUser
 );
 router.put(
-  "/event/:id/remove/participant/:user",
+  "",
   params(update.participant, "params"),
   controller.event.removeUser
 );

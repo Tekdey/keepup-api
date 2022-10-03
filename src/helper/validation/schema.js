@@ -43,7 +43,7 @@ module.exports = {
         .keys({
           name: Joi.string().required(),
           description: Joi.string().required(),
-          sport: Joi.string().required(),
+          sport: Joi.objectId().required(),
           level: Joi.string(),
           gender: Joi.string(),
           max: Joi.number().integer(),
@@ -71,7 +71,7 @@ module.exports = {
   },
   search() {
     return Joi.object().keys({
-      sport: Joi.string().allow(null).allow(""),
+      sport: Joi.objectId().allow(null).allow(""),
       level: Joi.string().allow(null).allow(""),
       gender: Joi.string().allow(null).allow(""),
       city: Joi.string().allow(null).allow(""),
