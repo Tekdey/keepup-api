@@ -6,6 +6,14 @@ let sports = Joi.object().keys({
 });
 
 module.exports = {
+  token() {
+    return Joi.object({
+      token: Joi.string().required(),
+    })
+      .required()
+      .min(1)
+      .max(1);
+  },
   login() {
     return Joi.object({
       email: Joi.string().email().required(),

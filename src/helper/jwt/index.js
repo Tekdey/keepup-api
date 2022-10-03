@@ -1,20 +1,28 @@
 const jwt = require("jsonwebtoken");
 
 module.exports = {
-  sign({ access, refresh }) {
+  sign({ access, refresh, token }) {
     return jwt.sign(
-      access || refresh,
-      access ? process.env.JWTACCESS : process.env.JWTREFRESH,
+      access || refresh || token,
+      access
+        ? process.env.JWTACCESS
+        : refresh
+        ? process.env.JWTREFRESH
+        : process.env.JWT_RESET_PASSWORD,
       {
-        expiresIn: access ? "1h" : "7d",
+        expiresIn: access ? "1h" : refresh ? "7d" : "600s",
       }
     );
   },
 
-  verify({ access, refresh }, callback) {
+  verify({ access, refresh, token }, callback) {
     return jwt.verify(
-      access || refresh,
-      access ? process.env.JWTACCESS : process.env.JWTREFRESH,
+      access || refresh || token,
+      access
+        ? process.env.JWTACCESS
+        : refresh
+        ? process.env.JWTREFRESH
+        : process.env.JWT_RESET_PASSWORD,
       callback
     );
   },
