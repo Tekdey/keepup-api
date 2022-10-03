@@ -62,7 +62,6 @@ module.exports = {
     }
   },
   async addUser({ params: { id: _id, user: user } }, res, next) {
-    console.log("########" + _id);
     try {
       const event = await datamapper.event.addUser({ _id }, user);
 
@@ -73,6 +72,23 @@ module.exports = {
       res.status(200).json({
         status: "Success",
         message: "Le participant à été ajouté",
+        event: event,
+      });
+    } catch (error) {
+      next(error);
+    }
+  },
+  async removeUser({ params: { id: _id, user: user } }, res, next) {
+    try {
+      const event = await datamapper.event.removeUser({ _id }, user);
+
+      if (!event) {
+        createError(403, "Event not found");
+      }
+
+      res.status(200).json({
+        status: "Success",
+        message: "Le participant à été retiré",
         event: event,
       });
     } catch (error) {

@@ -19,8 +19,13 @@ router.put(
 );
 router.put(
   "/event/:id/add/participant/:user",
-  params(update.addUser, "params"),
+  params(update.participant, "params"),
   controller.event.addUser
+);
+router.put(
+  "/event/:id/remove/participant/:user",
+  params(update.participant, "params"),
+  controller.event.removeUser
 );
 
 module.exports = router;

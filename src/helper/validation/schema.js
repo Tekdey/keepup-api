@@ -146,7 +146,7 @@ module.exports = {
         .min(0)
         .max(16);
     },
-    addUser() {
+    participant() {
       return Joi.object()
         .keys({
           id: Joi.objectId().required(),
