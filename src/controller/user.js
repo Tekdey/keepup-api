@@ -2,6 +2,7 @@ const datamapper = require("../data/datamapper");
 const { createError } = require("../helper/error/handler");
 const jwt = require("../helper/jwt");
 const User = require("../schema/User");
+const { sendResetPassword } = require("../service/nodemailer");
 
 module.exports = {
   async create({ body }, res, next) {
@@ -132,6 +133,75 @@ module.exports = {
       next(error);
     }
   },
+  token({ body: { token } }, res, next) {
+    // const refresh = jwt.sign({ refresh });
+    // console.log(refresh);
+    try {
+      let access;
+
+      const refresh = jwt.verify({ refresh: token }, (err, user) => {
+        if (err) {
+          createError(401, "Refresh token n'est pas valide");
+        }
+        return user;
+      });
+
+      if (refresh) {
+        console.log(refresh);
+        access = jwt.sign({ access: { id: refresh.id } });
+      }
+
+      res.status(200).json({ access });
+    } catch (error) {
+      next(error);
+    }
+  },
+  async forgetPassword({ params: { email } }, res, next) {
+    try {
+      const user = await datamapper.user.findOne({ email });
+
+      if (!user) {
+        createError(403, "Veuillez réessayer ulterieurement");
+      } else {
+        const token = jwt.sign({ token: { email } });
+        sendResetPassword({ receiver: user.email, id: user._id, token });
+      }
+
+      res.sendStatus(200);
+    } catch (error) {
+      next(error);
+    }
+  },
+  async confirmPassword(
+    { body: password, email: req, params: { id: _id } },
+    res,
+    next
+  ) {
+    try {
+      const user = await datamapper.user.findOne({ _id });
+
+      if (user.email !== req.email) {
+        createError(401, "Email ou mot de passe incorrect");
+      }
+      try {
+        const isValid = await user.validatePassword(password.older);
+
+        if (!isValid) {
+          createError(401, "Email ou mot de passe incorrect");
+        }
+
+        await user.setPassword(password.new);
+
+        await user.save();
+      } catch (error) {
+        throw error;
+      }
+
+      res.sendStatus(200);
+    } catch (error) {
+      next(error);
+    }
+  },
   test(req, res, next) {
     console.log("pass");
     res.json({
@@ -139,18 +209,3 @@ module.exports = {
     });
   },
 };
-
-// 	"firstname":"Lorem",
-// 	"lastname":"Ipsum",
-// 	"handicap":true,
-// 	"gender": "Homme",
-// 	"email":"test@gmail.com",
-// 	"password":"password123",
-// 	"dob": "06/03/2000",
-// 	"sports": [{
-// 		"level": "Expert",
-// 		"sport": "63315cc303beff9752dd8e45"
-// 	}],
-// 	"city": "Nimes",
-// 	"zipcode":30000
-// }

@@ -20,4 +20,22 @@ module.exports = {
 
     next();
   },
+  confirmChangePassword(req, res, next) {
+    const bearer = req.headers["authorization"];
+    let token;
+    if (bearer && bearer.startsWith("Bearer ")) {
+      token = bearer.split(" ")[1];
+    }
+    const decodedToken = jwt.verify({ token }, function (err, result) {
+      if (err) {
+        throw err;
+      }
+
+      return result;
+    });
+
+    req.email = decodedToken;
+
+    next();
+  },
 };

@@ -6,6 +6,7 @@ const controller = require("../controller");
 router.get("/signup", user.formSignup);
 router.get("/user/:id", user.getOne);
 router.get("/user/:id/view", user.getView);
+router.get("/auth/password/:email", user.forgetPassword);
 
 router.get("/event/:id", event.getOne);
 router.get("/event/:id/chat", message.getMessagesByEvent);

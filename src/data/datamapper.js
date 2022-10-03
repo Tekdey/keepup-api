@@ -48,6 +48,8 @@ module.exports = {
       }
       const newUser = User(user);
 
+      await newUser.setPassword(user.password);
+
       return newUser;
     },
 
