@@ -1,3 +1,4 @@
+const express = require("express");
 const datamapper = require("../data/datamapper");
 const { createError } = require("../helper/error/handler");
 
@@ -10,6 +11,14 @@ const { createError } = require("../helper/error/handler");
 // }
 
 module.exports = {
+  /**
+   * Event controller to create a record.
+   * ExpressMiddleware signature
+   * @param {express.Request.body} body Express request object
+   * @param {express.Response} res Express response object
+   * @param {express.NextFunction} next Express next function
+   * @returns Route API JSON response
+   */
   async create({ body }, res, next) {
     try {
       const event = await datamapper.event.create(body);
@@ -25,6 +34,14 @@ module.exports = {
       next(error);
     }
   },
+  /**
+   * Event controller to get records.
+   * ExpressMiddleware signature
+   * @param {express.Request.body} body Express request object
+   * @param {express.Response} res Express response object
+   * @param {express.NextFunction} next Express next function
+   * @returns Route API JSON response
+   */
   async findEvents({ body }, res, next) {
     try {
       const events = await datamapper.event.find(body);
@@ -34,6 +51,15 @@ module.exports = {
       next(error);
     }
   },
+
+  /**
+   * Event controller to get a record.
+   * ExpressMiddleware signature
+   * @param {express.Request.body} body Express request object
+   * @param {express.Response} res Express response object
+   * @param {express.NextFunction} next Express next function
+   * @returns Route API JSON response
+   */
   async getOne({ params: { id: _id } }, res, next) {
     try {
       const event = await datamapper.event.findOne(_id);
@@ -43,6 +69,15 @@ module.exports = {
       next(error);
     }
   },
+
+  /**
+   * Event controller to update a record.
+   * ExpressMiddleware signature
+   * @param {express.Request.body} body Express request object
+   * @param {express.Response} res Express response object
+   * @param {express.NextFunction} next Express next function
+   * @returns Route API JSON response
+   */
   async update({ body, params: { id: _id } }, res, next) {
     try {
       const { matchedCount } = await datamapper.event.updateOne(
@@ -61,6 +96,15 @@ module.exports = {
       next(error);
     }
   },
+
+  /**
+   * Event controller to add a user to a record.
+   * ExpressMiddleware signature
+   * @param {express.Request.body} body Express request object
+   * @param {express.Response} res Express response object
+   * @param {express.NextFunction} next Express next function
+   * @returns Route API JSON response
+   */
   async addUser({ params: { id: _id, user: user } }, res, next) {
     try {
       const event = await datamapper.event.addUser({ _id }, user);
@@ -78,6 +122,14 @@ module.exports = {
       next(error);
     }
   },
+  /**
+   * Event controller to remove a user from record.
+   * ExpressMiddleware signature
+   * @param {express.Request.body} body Express request object
+   * @param {express.Response} res Express response object
+   * @param {express.NextFunction} next Express next function
+   * @returns Route API JSON response
+   */
   async removeUser({ params: { id: _id, user: user } }, res, next) {
     try {
       const event = await datamapper.event.removeUser({ _id }, user);
