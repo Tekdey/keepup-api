@@ -72,7 +72,7 @@ module.exports = {
 
       res.status(200).json({
         status: "Success",
-        message: "Votre event a été modifié",
+        message: "Le participant à été ajouté",
         event: event,
       });
     } catch (error) {
