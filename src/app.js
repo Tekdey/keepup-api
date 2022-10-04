@@ -2,6 +2,8 @@ const express = require("express");
 const app = express();
 const router = require("./router");
 
+require("./helper/apiDocs")(app);
+
 // db connection
 const MongooseConfig = require("./config/MongooseConfig");
 const mongoose = new MongooseConfig();
