@@ -29,9 +29,10 @@ module.exports = {
     }
     const decodedToken = jwt.verify({ token }, function (err, result) {
       if (err) {
+        console.log(err);
         createError(401, "Le lien a expiré veuillez recommencer");
       }
-
+      console.log(result);
       return result;
     });
 

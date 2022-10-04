@@ -1,8 +1,8 @@
 const router = require("express").Router();
 const controller = require("../controller");
-const { user: param, dynamicController } = require("../middleware/parameter");
-const { body: validator, params } = require("../helper/validation/validator");
-const { update } = require("../helper/validation/schema");
+const { user: param } = require("../middleware/parameter");
+const { body: validator, params } = require("../service/validation/validator");
+const { update } = require("../service/validation/schema");
 
 router.param("id", param.id);
 router.put("/user/:id/update", validator(update.user), controller.user.update);
@@ -22,8 +22,9 @@ router.put(
   params(update.participant, "params"),
   controller.event.addUser
 );
+
 router.put(
-  "",
+  "/event/:id/remove/participant/:user",
   params(update.participant, "params"),
   controller.event.removeUser
 );
