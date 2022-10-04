@@ -41,4 +41,14 @@ module.exports = {
       }
     };
   },
+  params(schema) {
+    return ({ params }, _, next) => {
+      const { error } = schema().validate(params);
+      if (error) {
+        createError(401, error.message);
+      } else {
+        next();
+      }
+    };
+  },
 };

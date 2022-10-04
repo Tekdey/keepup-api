@@ -66,8 +66,6 @@ module.exports = {
         throw error;
       }
 
-      // console.log(sports);
-
       return await User.updateOne(user, sports);
     },
   },
@@ -93,26 +91,38 @@ module.exports = {
       if (!event) {
         throw error;
       }
-      console.log(user);
-      const result = await Event.updateOne(
-        { _id: "633490ebf0805bc06edcbfe5" },
+      return await Event.updateOne(
+        { _id: event },
         {
-          $push: { participant: "6331760ae17d6c76841f590e" },
+          $addToSet: { participant: user },
         }
       );
-
-      console.log(result);
-
-      return result;
+    },
+    async removeUser(event, user) {
+      if (!event) {
+        throw error;
+      }
+      return await Event.updateOne(
+        { _id: event },
+        {
+          $pull: { participant: user },
+        }
+      );
     },
     async findOne(id) {
       if (!id) {
         throw error;
       }
-      return Event.findOne({ _id: id }).populate({
-        path: "participant",
-        select: "_id  image_url firstname  gender dob city sports",
-      });
+      return Event.findOne({ _id: id })
+        .populate({
+          path: "participant",
+          select: "_id  image_url firstname  gender dob city sports",
+        })
+        .populate({
+          path: "admin",
+          select: "_id  image_url firstname  gender dob city sports",
+        })
+        .populate("sport");
     },
 
     async find(body) {

@@ -13,6 +13,8 @@ const io = require("socket.io")(httpServer, {
   },
 });
 
+require("./helper/apiDocs")(app);
+
 // db connection
 const MongooseConfig = require("./config/MongooseConfig");
 const mongoose = new MongooseConfig();
