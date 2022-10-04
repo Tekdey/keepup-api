@@ -49,10 +49,9 @@ module.exports = {
    * @param {express.NextFunction} next Express next function
    * @returns Route API JSON response
    */
-  async login(req, res, next) {
-    let access = "";
-    let refresh = "";
-    const body = req.body;
+  async login({ body }, res, next) {
+    let access;
+    let refresh;
 
     try {
       const user = await datamapper.user.findOne({ email: body.email });
