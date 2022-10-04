@@ -2,6 +2,7 @@ const datamapper = require("../data/datamapper");
 const { createError } = require("../helper/error/handler");
 const jwt = require("../helper/jwt");
 const User = require("../schema/User");
+const { sendResetPassword } = require("../service/nodemailer");
 
 module.exports = {
   async create({ body }, res, next) {
@@ -18,8 +19,12 @@ module.exports = {
         return next(error);
       }
 
-      const access = jwt.sign({ access: { id: user._id } });
-      const refresh = jwt.sign({ refresh: { id: user._id } });
+      const access = jwt.sign({
+        access: { _id: user._id, firstname: user.firstname },
+      });
+      const refresh = jwt.sign({
+        refresh: { _id: user._id, firstname: user.firstname },
+      });
 
       return res.status(200).json({ access, refresh });
     } catch (error) {
@@ -27,10 +32,9 @@ module.exports = {
     }
   },
 
-  async login(req, res, next) {
-    let access = "";
-    let refresh = "";
-    const body = req.body;
+  async login({ body }, res, next) {
+    let access;
+    let refresh;
 
     try {
       const user = await datamapper.user.findOne({ email: body.email });
@@ -38,8 +42,12 @@ module.exports = {
         createError(401, "Email or password incorrect");
       }
       if (await user.validatePassword(body.password)) {
-        access = jwt.sign({ access: { email: user._id } });
-        refresh = jwt.sign({ refresh: { email: user._id } });
+        access = jwt.sign({
+          access: { _id: user._id, firstname: user.firstname },
+        });
+        refresh = jwt.sign({
+          refresh: { _id: user._id, firstname: user.firstname },
+        });
       } else {
         createError(401, "Email or password incorrect");
       }
@@ -132,19 +140,79 @@ module.exports = {
       next(error);
     }
   },
-};
+  token({ body: { token } }, res, next) {
+    // const refresh = jwt.sign({ refresh });
+    // console.log(refresh);
+    try {
+      let access;
 
-// 	"firstname":"Lorem",
-// 	"lastname":"Ipsum",
-// 	"handicap":true,
-// 	"gender": "Homme",
-// 	"email":"test@gmail.com",
-// 	"password":"password123",
-// 	"dob": "06/03/2000",
-// 	"sports": [{
-// 		"level": "Expert",
-// 		"sport": "63315cc303beff9752dd8e45"
-// 	}],
-// 	"city": "Nimes",
-// 	"zipcode":30000
-// }
+      const refresh = jwt.verify({ refresh: token }, (err, user) => {
+        if (err) {
+          createError(401, "Refresh token n'est pas valide");
+        }
+        return user;
+      });
+
+      if (refresh) {
+        console.log(refresh);
+        access = jwt.sign({ access: { id: refresh.id } });
+      }
+
+      res.status(200).json({ access });
+    } catch (error) {
+      next(error);
+    }
+  },
+  async forgetPassword({ params: { email } }, res, next) {
+    try {
+      const user = await datamapper.user.findOne({ email });
+
+      if (!user) {
+        createError(403, "Veuillez réessayer ulterieurement");
+      } else {
+        const token = jwt.sign({ token: { email } });
+        sendResetPassword({ receiver: user.email, id: user._id, token });
+      }
+
+      res.sendStatus(200);
+    } catch (error) {
+      next(error);
+    }
+  },
+  async confirmPassword(
+    { body: password, email: req, params: { id: _id } },
+    res,
+    next
+  ) {
+    try {
+      const user = await datamapper.user.findOne({ _id });
+
+      if (user.email !== req.email) {
+        createError(401, "Email ou mot de passe incorrect");
+      }
+      try {
+        const isValid = await user.validatePassword(password.older);
+
+        if (!isValid) {
+          createError(401, "Email ou mot de passe incorrect");
+        }
+
+        await user.setPassword(password.new);
+
+        await user.save();
+      } catch (error) {
+        throw error;
+      }
+
+      res.sendStatus(200);
+    } catch (error) {
+      next(error);
+    }
+  },
+  test(req, res, next) {
+    console.log("pass");
+    res.json({
+      msg: "Cors work well ???",
+    });
+  },
+};
