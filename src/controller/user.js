@@ -202,6 +202,15 @@ module.exports = {
       next(error);
     }
   },
+
+  /**
+   * User controller to verify a token.
+   * ExpressMiddleware signature
+   * @param {express.request.body.token} token Express request object
+   * @param {express.Response} res Express response object
+   * @param {express.NextFunction} next Express next function
+   * @returns Route API JSON response
+   */
   token({ body: { token } }, res, next) {
     // const refresh = jwt.sign({ refresh });
     // console.log(refresh);
@@ -225,6 +234,15 @@ module.exports = {
       next(error);
     }
   },
+
+  /**
+   * User controller to reset a password.
+   * ExpressMiddleware signature
+   * @param {express.request.params.email} email Express request object
+   * @param {express.Response} res Express response object
+   * @param {express.NextFunction} next Express next function
+   * @returns Route API JSON response
+   */
   async forgetPassword({ params: { email } }, res, next) {
     try {
       const user = await datamapper.user.findOne({ email });
@@ -241,6 +259,17 @@ module.exports = {
       next(error);
     }
   },
+
+  /**
+   * User controller to confirm password.
+   * ExpressMiddleware signature
+   * @param {express.request.body} password Express request object
+   * @param {express.request.email} req Express request object
+   * @param {express.request.params.id} email Express request object
+   * @param {express.Response} res Express response object
+   * @param {express.NextFunction} next Express next function
+   * @returns Route API JSON response
+   */
   async confirmPassword(
     { body: password, email: req, params: { id: _id } },
     res,
@@ -270,11 +299,5 @@ module.exports = {
     } catch (error) {
       next(error);
     }
-  },
-  test(req, res, next) {
-    console.log("pass");
-    res.json({
-      msg: "Cors work well ???",
-    });
   },
 };

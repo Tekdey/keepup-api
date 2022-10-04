@@ -34,6 +34,7 @@ module.exports = {
       next(error);
     }
   },
+
   /**
    * Event controller to get records.
    * ExpressMiddleware signature
@@ -63,7 +64,9 @@ module.exports = {
   async getOne({ params: { id: _id } }, res, next) {
     try {
       const event = await datamapper.event.findOne(_id);
-
+      if (!event) {
+        createError(403, "Event not found");
+      }
       return res.status(200).json(event);
     } catch (error) {
       next(error);
