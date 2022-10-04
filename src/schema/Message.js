@@ -14,8 +14,8 @@ const Message = new Schema({
   },
   content: {
     type: SchemaTypes.String,
-    minlength: 1,
-    maxlength: 250,
+    // minlength: 1,
+    // maxlength: 250,
   },
   created_at: {
     type: SchemaTypes.Date,

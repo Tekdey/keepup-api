@@ -197,9 +197,8 @@ module.exports = {
       );
       return { instance: message, matchedCount };
     },
-    async deleteOne(id) {
+    async deleteOne({ id }) {
       const message = await Message.findByIdAndDelete({ _id: id });
-      console.log(message);
 
       return message;
     },

@@ -13,8 +13,6 @@ const io = require("socket.io")(httpServer, {
   },
 });
 
-require("./helper/apiDocs")(app);
-
 // db connection
 const MongooseConfig = require("./config/MongooseConfig");
 const mongoose = new MongooseConfig();
@@ -31,6 +29,8 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
 app.use(require("morgan")("dev"));
+// api-doc
+require("./helper/apiDocs")(app);
 app.use("/api/v1", router);
 
 require("./service/socket").connect(io);

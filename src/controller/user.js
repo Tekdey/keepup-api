@@ -240,11 +240,7 @@ module.exports = {
       next(error);
     }
   },
-  async confirmPassword(
-    { body: password, email: req, params: { id: _id } },
-    res,
-    next
-  ) {
+  async confirmPassword({ body, email: req, params: { id: _id } }, res, next) {
     try {
       const user = await datamapper.user.findOne({ _id });
 
@@ -252,13 +248,11 @@ module.exports = {
         createError(401, "Email ou mot de passe incorrect");
       }
       try {
-        const isValid = await user.validatePassword(password.older);
-
-        if (!isValid) {
-          createError(401, "Email ou mot de passe incorrect");
+        if (body.password !== body.confirm) {
+          createError(401, "Les mot de passe ne sont pas identiques");
         }
 
-        await user.setPassword(password.new);
+        await user.setPassword(body.password);
 
         await user.save();
       } catch (error) {
