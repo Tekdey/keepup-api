@@ -1,4 +1,5 @@
 const jwt = require("../helper/jwt");
+const { createError } = require("../helper/error/handler");
 
 module.exports = {
   authenticate(req, res, next) {
@@ -21,14 +22,14 @@ module.exports = {
     next();
   },
   confirmChangePassword(req, res, next) {
-    const bearer = req.headers["authorization"];
+    const bearer = req.headers["check_password_header"];
     let token;
     if (bearer && bearer.startsWith("Bearer ")) {
       token = bearer.split(" ")[1];
     }
     const decodedToken = jwt.verify({ token }, function (err, result) {
       if (err) {
-        throw err;
+        createError(401, "Le lien a expiré veuillez recommencer");
       }
 
       return result;

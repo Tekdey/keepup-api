@@ -19,8 +19,12 @@ module.exports = {
         return next(error);
       }
 
-      const access = jwt.sign({ access: { id: user._id } });
-      const refresh = jwt.sign({ refresh: { id: user._id } });
+      const access = jwt.sign({
+        access: { _id: user._id, firstname: user.firstname },
+      });
+      const refresh = jwt.sign({
+        refresh: { _id: user._id, firstname: user.firstname },
+      });
 
       return res.status(200).json({ access, refresh });
     } catch (error) {
@@ -28,10 +32,9 @@ module.exports = {
     }
   },
 
-  async login(req, res, next) {
-    let access = "";
-    let refresh = "";
-    const body = req.body;
+  async login({ body }, res, next) {
+    let access;
+    let refresh;
 
     try {
       const user = await datamapper.user.findOne({ email: body.email });
@@ -39,8 +42,12 @@ module.exports = {
         createError(401, "Email or password incorrect");
       }
       if (await user.validatePassword(body.password)) {
-        access = jwt.sign({ access: { email: user._id } });
-        refresh = jwt.sign({ refresh: { email: user._id } });
+        access = jwt.sign({
+          access: { _id: user._id, firstname: user.firstname },
+        });
+        refresh = jwt.sign({
+          refresh: { _id: user._id, firstname: user.firstname },
+        });
       } else {
         createError(401, "Email or password incorrect");
       }
