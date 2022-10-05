@@ -13,7 +13,7 @@ const io = require("socket.io")(httpServer, {
   },
 });
 
-require("./helper/swagger/apiDocs")(app);
+// require("./helper/swagger/apiDocs")(app);
 
 // db connection
 const MongooseConfig = require("./config/MongooseConfig");
@@ -31,7 +31,7 @@ app.use(express.json());
 
 app.use(require("morgan")("dev"));
 // api-doc
-require("./helper/apiDocs")(app);
+require("./helper/swagger/apiDocs")(app);
 app.use("/api/v1", router);
 
 require("./service/socket").connect(io);
