@@ -5,15 +5,21 @@ const { Event } = require("../schema");
 
 module.exports = {
   user: {
-    async findOne(obj) {
-      if (!obj) {
+    /**
+     * Method to get a document from a id
+     * ExpressMiddleware signature
+     * @param {object} id id to search
+     * @returns the document requested
+     */
+    async findOne(id) {
+      if (!id) {
         throw error;
       }
-      const searchKey = Object.keys(obj)[0];
+      const searchKey = Object.keys(id)[0];
 
       try {
         return await User.findOne({
-          [searchKey]: Object.values(obj)[0],
+          [searchKey]: Object.values(id)[0],
         }).populate({
           path: "sports.sport",
         });
@@ -21,6 +27,13 @@ module.exports = {
         return error;
       }
     },
+
+    /**
+     * Method to get a custom document of a user from a id
+     * ExpressMiddleware signature
+     * @param {import("mongoose").ObjectId} id id to search
+     * @returns the custom document requested
+     */
     async getUserView(id) {
       if (!id) {
         throw error;
@@ -42,6 +55,12 @@ module.exports = {
       }
     },
 
+    /**
+     * Method to get a custom document of a user from a id
+     * ExpressMiddleware signature
+     * @param {object} user data to create the new user
+     * @returns the new user just created
+     */
     async create(user) {
       if (!user) {
         throw error;
@@ -53,6 +72,13 @@ module.exports = {
       return newUser;
     },
 
+    /**
+     * Method to update info(s) of a user
+     * ExpressMiddleware signature
+     * @param {import("mongoose").ObjectId} user id of the user
+     * @param {object} newInfo new info(s) to update
+     * @returns confirmation of the update
+     */
     async updateOne(user, newInfo) {
       if (!user) {
         throw error;
@@ -61,6 +87,13 @@ module.exports = {
       return await User.updateOne(user, newInfo);
     },
 
+    /**
+     * Method to add a sport to a user
+     * ExpressMiddleware signature
+     * @param {import("mongoose").ObjectId} user id of the user
+     * @param {import("mongoose").ObjectId} sport id of the sport
+     * @returns confirmation of the update
+     */
     async addSport(user, { sports }) {
       if (!user) {
         throw error;
@@ -70,6 +103,12 @@ module.exports = {
     },
   },
   event: {
+    /**
+     * Method to create an event
+     * ExpressMiddleware signature
+     * @param {object} event data to create the new event
+     * @returns the new event just created
+     */
     async create(event) {
       if (!event) {
         throw error;
@@ -80,6 +119,14 @@ module.exports = {
 
       return newEvent;
     },
+
+    /**
+     * Method to update info(s) of an event
+     * ExpressMiddleware signature
+     * @param {import("mongoose").ObjectId} event id of the event
+     * @param {object} newInfo new info(s) to update
+     * @returns confirmation of the update
+     */
     async updateOne(event, newInfo) {
       if (!event) {
         throw error;
@@ -87,6 +134,14 @@ module.exports = {
 
       return await Event.updateOne(event, newInfo);
     },
+
+    /**
+     * Method to add a user to an event
+     * ExpressMiddleware signature
+     * @param {import("mongoose").ObjectId} event id of the event
+     * @param {import("mongoose").ObjectId} user id of the user
+     * @returns confirmation of the update
+     */
     async addUser(event, user) {
       if (!event) {
         throw error;
@@ -98,6 +153,14 @@ module.exports = {
         }
       );
     },
+
+    /**
+     * Method to remove a user from an event
+     * ExpressMiddleware signature
+     * @param {import("mongoose").ObjectId} event id of the event
+     * @param {import("mongoose").ObjectId} user id of the user
+     * @returns confirmation of the update
+     */
     async removeUser(event, user) {
       if (!event) {
         throw error;
@@ -109,6 +172,13 @@ module.exports = {
         }
       );
     },
+
+    /**
+     * Method to find an event by id
+     * ExpressMiddleware signature
+     * @param {import("mongoose").ObjectId} id id of the event
+     * @returns document of the event requestedx
+     */
     async findOne(id) {
       if (!id) {
         throw error;
@@ -125,6 +195,12 @@ module.exports = {
         .populate("sport");
     },
 
+    /**
+     * Method to find an event with filters
+     * ExpressMiddleware signature
+     * @param {object} body filter(s)
+     * @returns document(s) of the event(s) found
+     */
     async find(body) {
       let query = {};
       if (typeof body !== "object" && Object.keys(body).length !== 0) {
@@ -159,16 +235,22 @@ module.exports = {
     },
   },
   activity: {
+    /**
+     * Method to get all activity
+     * ExpressMiddleware signature
+     * @returns all documents record
+     */
     async findAll() {
       return await Activity.find();
     },
   },
-  activity: {
-    async findAll(filter, sort) {
-      return await Activity.find(filter, sort).lean();
-    },
-  },
   message: {
+    /**
+     * Method to get messages by event
+     * ExpressMiddleware signature
+     * @param {import("mongoose").ObjectId} id id of the event
+     * @returns messages from the event
+     */
     async getMessagesByEvent(id) {
       return await Event.findOne({ _id: id })
         .populate({
@@ -181,6 +263,12 @@ module.exports = {
         })
         .select({ messages: 1, _id: 0 });
     },
+    /**
+     * Method to add messages in an event
+     * ExpressMiddleware signature
+     * @param {object} socket
+     * @returns object with instance of message
+     */
     async insert(socket) {
       const schema = {
         sender: socket.sender._id,
@@ -197,6 +285,13 @@ module.exports = {
       );
       return { instance: message, matchedCount };
     },
+
+    /**
+     * Method to delete a message by his id
+     * ExpressMiddleware signature
+     * @param {object} socket
+     * @returns the message deleted
+     */
     async deleteOne({ id }) {
       const message = await Message.findByIdAndDelete({ _id: id });
 

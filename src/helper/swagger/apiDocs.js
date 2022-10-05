@@ -3,25 +3,33 @@ const expressJSDocSwagger = require("express-jsdoc-swagger");
 const options = {
   info: {
     version: "1.0.0",
-    title: "keep'up",
-    email: "keepup.oclock@gmail.com",
+    title: "(Keep'Up) API",
+    description: "Express api for keep'up app.",
+    contact: {
+      name: "Nathan Bardi, Jeffrey Mussard",
+      email: "keepup.oclock@gmail.com",
+    },
   },
-  schemes: ["http"],
+  security: {
+    BasicAuth: {
+      type: "http",
+      scheme: "basic",
+    },
+  },
   consumes: ["application/json"],
   produces: ["application/json"],
-  basePath: "api/v1/",
   baseDir: __dirname,
 
   filesPattern: [
-    "../router/**/*.js",
+    "../../router/*.js",
     "../helper/**/*.js",
-    "../data/*.js",
-    "../schema/*.js",
+    "../../data/*.js",
+    "../../schema/*.js",
   ],
 
   swaggerUIPath: process.env.API_DOCUMENTATION_ROUTE,
   exposeApiDocs: true,
-  apiDocsPath: "/api/docs",
+  apis: ["../../router/*.js"],
 };
 
 /**
