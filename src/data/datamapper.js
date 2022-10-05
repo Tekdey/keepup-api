@@ -292,9 +292,8 @@ module.exports = {
      * @param {object} socket
      * @returns the message deleted
      */
-    async deleteOne(id) {
+    async deleteOne({ id }) {
       const message = await Message.findByIdAndDelete({ _id: id });
-      console.log(message);
 
       return message;
     },

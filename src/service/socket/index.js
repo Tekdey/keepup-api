@@ -50,6 +50,26 @@ function connect(io) {
     });
 
     /**
+     * Delete message listener
+     */
+
+    socket.on("user:delete-message", async (payload, callback) => {
+      socket.in(socket.room).emit("user:delete-message", payload);
+      try {
+        if (!ObjectId.isValid(payload.id)) {
+          throw new Error("id invalid");
+        }
+
+        await db.deleteOne(payload);
+
+        callback(false, { ...payload });
+      } catch (error) {
+        console.log(error);
+        callback(true, { error });
+      }
+    });
+
+    /**
      * User disconnection listener
      */
     socket.on("disconnect", () => {
