@@ -1,5 +1,8 @@
 const router = require("express").Router();
-const { message } = require("../controller");
+const { message, event } = require("../controller");
+
+const { params } = require("../service/validation/validator");
+const { update } = require("../service/validation/schema");
 
 /**
  * DELETE /api/v1/message/:id/delete"
@@ -9,5 +12,9 @@ const { message } = require("../controller");
  * @return {string} 400 - Bad request
  */
 router.delete("/message/:id/delete", message.deleteMessageById);
-
+router.delete(
+  "/event/:id/remove/participant/:user",
+  params(update.participant, "params"),
+  event.removeUser
+);
 module.exports = router;
