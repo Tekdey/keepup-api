@@ -12,9 +12,18 @@ const { update } = require("../service/validation/schema");
  * @return {string} 400 - Bad request
  */
 router.delete("/message/:id/delete", message.deleteMessageById);
-router.delete(
+
+/**
+ * DELETE /api/v1/event/:id/remove/participant/:user"
+ * @summary Route to remove a participant to an event
+ * @tags Event
+ * @return {object} 200 - success response - application/json
+ * @return {string} 400 - Bad request
+ */
+router.put(
   "/event/:id/remove/participant/:user",
   params(update.participant, "params"),
   event.removeUser
 );
+
 module.exports = router;

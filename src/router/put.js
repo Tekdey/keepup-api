@@ -48,17 +48,4 @@ router.put(
   controller.event.addUser
 );
 
-/**
- * PUT /api/v1/event/:id/remove/participant/:user"
- * @summary Route to remove a participant to an event
- * @tags Event
- * @return {object} 200 - success response - application/json
- * @return {string} 400 - Bad request
- */
-router.put(
-  "/event/:id/remove/participant/:user",
-  params(update.participant, "params"),
-  controller.event.removeUser
-);
-
 module.exports = router;
