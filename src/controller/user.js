@@ -259,7 +259,7 @@ module.exports = {
     }
   },
 
-  /**
+/**
    * User controller to confirm password.
    * ExpressMiddleware signature
    * @param {express.request.body} password Express request object
@@ -274,6 +274,7 @@ module.exports = {
     res,
     next
   ) {
+
     try {
       const user = await datamapper.user.findOne({ _id });
 
@@ -281,13 +282,11 @@ module.exports = {
         createError(401, "Email ou mot de passe incorrect");
       }
       try {
-        const isValid = await user.validatePassword(password.older);
-
-        if (!isValid) {
-          createError(401, "Email ou mot de passe incorrect");
+        if (body.password !== body.confirm) {
+          createError(401, "Les mot de passe ne sont pas identiques");
         }
 
-        await user.setPassword(password.new);
+        await user.setPassword(body.password);
 
         await user.save();
       } catch (error) {
