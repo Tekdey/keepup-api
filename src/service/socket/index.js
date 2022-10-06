@@ -1,12 +1,11 @@
 // https://socket.io/how-to/use-with-express-session
 const { message: db } = require("../../data/datamapper");
+const jwt = require("../../helper/jwt");
 const ObjectId = require("mongoose").Types.ObjectId;
 
 function connect(io) {
   io.on("connection", (socket) => {
     console.log("✅");
-    // const room = "63348fecf0805bc06edcbfdc";
-
     /**
      * Join event sockets listeners
      */
@@ -28,6 +27,7 @@ function connect(io) {
      * Send message sockets listeners
      */
     socket.on("user:send", async (message, callback) => {
+      console.log(message);
       socket.in(socket.room).emit("user:send", message);
       try {
         if (

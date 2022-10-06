@@ -211,20 +211,18 @@ module.exports = {
    * @returns Route API JSON response
    */
   token({ body: { token } }, res, next) {
-    // const refresh = jwt.sign({ refresh });
-    // console.log(refresh);
     try {
       let access;
-
       const refresh = jwt.verify({ refresh: token }, (err, user) => {
         if (err) {
-          createError(401, "Refresh token n'est pas valide");
+          console.log(err.message);
+          createError("JWT_REFRESH", err.message);
         }
+
         return user;
       });
 
       if (refresh) {
-        console.log(refresh);
         access = jwt.sign({ access: { id: refresh.id } });
       }
 
@@ -269,11 +267,7 @@ module.exports = {
    * @param {express.NextFunction} next Express next function
    * @returns Route API JSON response
    */
-  async confirmPassword(
-    { body: password, email: req, params: { id: _id } },
-    res,
-    next
-  ) {
+  async confirmPassword({ body, email: req, params: { id: _id } }, res, next) {
     try {
       const user = await datamapper.user.findOne({ _id });
 

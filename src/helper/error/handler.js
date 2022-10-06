@@ -29,6 +29,7 @@ module.exports = {
   manager(err, req, res, next) {
     console.log("_________________");
     console.log(err.message);
+    console.log(err.code);
     console.log("_________________");
 
     if (err instanceof mongoose.Error.ValidationError) {
@@ -40,6 +41,12 @@ module.exports = {
      * Error Handler
      */
     switch (err.code) {
+      case "JWT_ACCESS":
+      case "JWT_REFRESH":
+        res
+          .status(401)
+          .json({ status: "Error", code: err.code, error: err.message });
+        break;
       case 401:
         res.status(err.code).json({ status: "Error", error: err.message });
         break;

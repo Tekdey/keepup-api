@@ -5,18 +5,19 @@ module.exports = {
   authenticate(req, res, next) {
     //
     const bearer = req.headers["authorization"];
+
     let token;
     if (bearer && bearer.startsWith("Bearer ")) {
       token = bearer.split(" ")[1];
     }
+
     const decodedToken = jwt.verify({ access: token }, function (err, result) {
       if (err) {
-        throw err;
+        createError("JWT_ACCESS", err.message);
       }
 
       return result;
     });
-
     req.user = decodedToken;
 
     next();
@@ -29,13 +30,10 @@ module.exports = {
     }
     const decodedToken = jwt.verify({ token }, function (err, result) {
       if (err) {
-        console.log(err);
         createError(401, "Le lien a expiré veuillez recommencer");
       }
-      console.log(result);
       return result;
     });
-
     req.email = decodedToken;
 
     next();
