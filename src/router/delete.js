@@ -38,7 +38,7 @@ router.delete("/event/:id/delete", authenticate, event.deleteEvent);
 /**
  * DELETE /api/v1/user/:id/delete"
  * @summary Route to delete an user by id
- * @tags Event
+ * @tags User
  * @return {object} 200 - success response - application/json
  * @return {string} 400 - Bad request
  */
