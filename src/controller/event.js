@@ -149,4 +149,27 @@ module.exports = {
       next(error);
     }
   },
+  /**
+   * Event controller to remove a event by his id.
+   * ExpressMiddleware signature
+   * @param {express.Request.params} params Express request object
+   * @param {express.Response} res Express response object
+   * @param {express.NextFunction} next Express next function
+   * @returns Route API JSON response
+   */
+  async deleteEvent({ params: { id } }, res, next) {
+    try {
+      const event = await datamapper.event.deleteOne(id);
+
+      if (!event) {
+        createError(403, "Aucun event a supprimer");
+      }
+
+      res
+        .status(200)
+        .json({ status: "Success", message: "L'event a été supprimé" });
+    } catch (error) {
+      next(error);
+    }
+  },
 };

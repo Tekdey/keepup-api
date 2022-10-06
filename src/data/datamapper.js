@@ -101,6 +101,16 @@ module.exports = {
 
       return await User.updateOne(user, sports);
     },
+    /**
+     * Method to delete an user by id
+     * ExpressMiddleware signature
+     * @param {import("mongoose").ObjectId} id objectId
+     * @returns document(s) of the event(s) found
+     */
+    async deleteOne(id) {
+      const { deletedCount } = await User.deleteOne({ _id: id });
+      return deletedCount;
+    },
   },
   event: {
     /**
@@ -231,6 +241,16 @@ module.exports = {
         path: "participant",
         select: "_id  image_url firstname",
       });
+    },
+    /**
+     * Method to delete an event by id
+     * ExpressMiddleware signature
+     * @param {import("mongoose").ObjectId} id objectId
+     * @returns document(s) of the event(s) found
+     */
+    async deleteOne(id) {
+      const { deletedCount } = await Event.deleteOne({ _id: id });
+      return deletedCount;
     },
   },
   activity: {

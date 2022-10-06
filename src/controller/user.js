@@ -259,7 +259,7 @@ module.exports = {
     }
   },
 
-/**
+  /**
    * User controller to confirm password.
    * ExpressMiddleware signature
    * @param {express.request.body} password Express request object
@@ -274,7 +274,6 @@ module.exports = {
     res,
     next
   ) {
-
     try {
       const user = await datamapper.user.findOne({ _id });
 
@@ -294,6 +293,29 @@ module.exports = {
       }
 
       res.sendStatus(200);
+    } catch (error) {
+      next(error);
+    }
+  },
+  /**
+   * User controller to remove a user by his id.
+   * ExpressMiddleware signature
+   * @param {express.Request.params} params Express request object
+   * @param {express.Response} res Express response object
+   * @param {express.NextFunction} next Express next function
+   * @returns Route API JSON response
+   */
+  async deleteUser({ params: { id } }, res, next) {
+    try {
+      const event = await datamapper.user.deleteOne(id);
+
+      if (!event) {
+        createError(403, "Aucun utilisateur a supprimer");
+      }
+
+      res
+        .status(200)
+        .json({ status: "Success", message: "L'utilisateur a été supprimé" });
     } catch (error) {
       next(error);
     }
