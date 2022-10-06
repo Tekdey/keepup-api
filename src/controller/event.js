@@ -119,7 +119,7 @@ module.exports = {
       res.status(200).json({
         status: "Success",
         message: "Le participant à été ajouté",
-        event: event,
+        // event: event,
       });
     } catch (error) {
       next(error);
@@ -144,7 +144,6 @@ module.exports = {
       res.status(200).json({
         status: "Success",
         message: "Le participant à été retiré",
-        event: event,
       });
     } catch (error) {
       next(error);

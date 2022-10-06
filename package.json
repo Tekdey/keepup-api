@@ -6,7 +6,7 @@
   "scripts": {
     "start": "node index.js",
     "dev": "nodemon node index.js",
-    "test": "jest src/test/router/PUT/update_event.test.js"
+    "test": "jest"
   },
   "repository": {
     "type": "git",
