@@ -4,6 +4,9 @@ const options = {
   info: {
     version: "1.0.0",
     title: "(Keep'Up) API",
+    license: {
+      name: "MIT",
+    },
     description: "Express api for keep'up app.",
     contact: {
       name: "Nathan Bardi, Jeffrey Mussard",
@@ -16,8 +19,6 @@ const options = {
       scheme: "basic",
     },
   },
-  consumes: ["application/json"],
-  produces: ["application/json"],
   baseDir: __dirname,
 
   filesPattern: [
@@ -29,7 +30,7 @@ const options = {
 
   swaggerUIPath: process.env.API_DOCUMENTATION_ROUTE,
   exposeApiDocs: true,
-  apis: ["../../router/*.js"],
+  // apis: ["../../router/*.js"],
 };
 
 /**
