@@ -4,6 +4,7 @@ const { user: param, dynamicController } = require("../middleware/parameter");
 const validator = require("../service/validation/validator");
 const schema = require("../service/validation/schema");
 const { confirmChangePassword } = require("../middleware");
+const { authenticate } = require("../middleware");
 
 // Defining the router param with its value
 router.param("collection", param.collection);
@@ -62,7 +63,7 @@ router.param("collection", param.collection);
  *
  */
 router.post(
-  "/auth/login",
+  "/create/:collection",
   validator.create(schema.create),
   dynamicController(controller)
 );
@@ -111,7 +112,7 @@ router.post(
  */
 router.post(
   "/events",
-  validator.search(schema.search),
+  [authenticate, validator.search(schema.search)],
   controller.event.findEvents
 );
 
