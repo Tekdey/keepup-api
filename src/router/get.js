@@ -137,6 +137,7 @@ router.get("/auth/password/:email", user.forgetPassword);
  * GET /api/v1/event/:id
  * @summary Route to get an event's data
  * @tags Event
+ * @param {string} id - event id
  * @return {object} 200 - success response - application/json
  * @return {string} 403 - 	Forbidden
  * @example response - 403 - example error response
