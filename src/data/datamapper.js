@@ -131,7 +131,6 @@ module.exports = {
       if (!event) {
         throw error;
       }
-
       return await Event.updateOne(event, newInfo);
     },
 

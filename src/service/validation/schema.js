@@ -55,7 +55,7 @@ module.exports = {
           level: Joi.string(),
           gender: Joi.string(),
           max: Joi.number().integer(),
-          date: Joi.string().required(),
+          date: Joi.date().required(),
           period: Joi.object().keys({
             start: Joi.string().required(),
             end: Joi.string().required(),
@@ -64,7 +64,7 @@ module.exports = {
           country: Joi.string(),
           address: Joi.string().required(),
           city: Joi.string(),
-          zipcode: Joi.string(),
+          zipcode: Joi.number(),
           location: Joi.object().keys({
             type: Joi.string(),
             coordinates: Joi.array()
