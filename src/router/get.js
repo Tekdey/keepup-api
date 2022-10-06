@@ -1,6 +1,7 @@
 const router = require("express").Router();
 const { user, activity, event, message } = require("../controller");
 const controller = require("../controller");
+const { authenticate } = require("../middleware");
 
 /**
  * GET /api/v1/signup
@@ -86,7 +87,7 @@ router.get("/signup", user.formSignup);
 }
 }
  */
-router.get("/user/:id", user.getOne);
+router.get("/user/:id", authenticate, user.getOne);
 
 /**
  * GET /api/v1/user/:id/view
@@ -120,7 +121,7 @@ router.get("/user/:id", user.getOne);
  *}
  *}
  */
-router.get("/user/:id/view", user.getView);
+router.get("/user/:id/view", authenticate, user.getView);
 
 /**
  * GET /api/v1/auth/password/:email
@@ -202,7 +203,7 @@ router.get("/auth/password/:email", user.forgetPassword);
  *        "__v": 6
  *    }
  */
-router.get("/event/:id", event.getOne);
+router.get("/event/:id", authenticate, event.getOne);
 
 /**
  * GET /api/v1/event/:id/chat
@@ -240,7 +241,7 @@ router.get("/event/:id", event.getOne);
  *           ]
  *}
  */
-router.get("/event/:id/chat", message.getMessagesByEvent);
+router.get("/event/:id/chat", authenticate, message.getMessagesByEvent);
 
 /**
  * GET /api/v1/sports
@@ -270,6 +271,6 @@ router.get("/event/:id/chat", message.getMessagesByEvent);
  *       ]
  *}
  */
-router.get("/sports", activity.getSports);
+router.get("/sports", authenticate, activity.getSports);
 
 module.exports = router;

@@ -3,7 +3,7 @@ const { message, event } = require("../controller");
 
 const { params } = require("../service/validation/validator");
 const { update } = require("../service/validation/schema");
-
+const { authenticate } = require("../middleware");
 /**
  * DELETE /api/v1/message/:id/delete"
  * @summary Route to delete a message
@@ -11,7 +11,7 @@ const { update } = require("../service/validation/schema");
  * @return {object} 200 - success response - application/json
  * @return {string} 400 - Bad request
  */
-router.delete("/message/:id/delete", message.deleteMessageById);
+router.delete("/message/:id/delete", authenticate, message.deleteMessageById);
 
 /**
  * DELETE /api/v1/event/:id/remove/participant/:user"
@@ -22,7 +22,7 @@ router.delete("/message/:id/delete", message.deleteMessageById);
  */
 router.put(
   "/event/:id/remove/participant/:user",
-  params(update.participant, "params"),
+  [authenticate, params(update.participant, "params")],
   event.removeUser
 );
 
