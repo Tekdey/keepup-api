@@ -3,7 +3,7 @@ const { Schema, SchemaTypes } = mongoose;
 
 const Event = new Schema({
   name: {
-    type: SchemaTypes.ObjectId,
+    type: SchemaTypes.String,
     required: true,
   },
   sport: {
@@ -22,7 +22,7 @@ const Event = new Schema({
     type: SchemaTypes.String,
     default: "Non précisé",
     enum: {
-      values: ["Homme", "Femme", "Non précisé"],
+      values: ["Homme", "Femme", "Non binaire", "Non précisé"],
       message: `La clé '{VALUE}' n'est pas autorisé`,
     },
   },
@@ -80,7 +80,11 @@ const Event = new Schema({
     type: { type: SchemaTypes.String, enum: ["Point"], required: true },
     coordinates: { type: [SchemaTypes.Number], required: true },
   },
-
+  description: {
+    type: {
+      type: SchemaTypes.String,
+    },
+  },
   created_at: {
     type: SchemaTypes.Date,
   },

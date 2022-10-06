@@ -23,8 +23,8 @@ module.exports = {
           <div>
           <p>Vous avez demander une rénitialisation de votre mot de passe veuillez cliquer sur ce lien pour pouvoir le changer:</p>
           <p>
-            <a href="http://localhost:3000/account/password/reset/${id}/${token}">
-              http://localhost:3000/account/password/reset/${id}/${token}
+            <a href="https://keepup-oclock.netlify.app/account/password/reset/${id}/${token}">
+            https://keepup-oclock.netlify.app/account/password/reset/${id}/${token}
             </a>
           </p>
           <p>Si vous n'etes pas l'origine de cette demande, ignorer cet email et aucune action ne sera effectuée</p>

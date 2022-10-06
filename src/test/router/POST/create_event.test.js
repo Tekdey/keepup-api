@@ -6,17 +6,25 @@ const { app } = require("../../../app");
 const event = () => {
   return {
     name: faker.name.firstName(),
-    sport: faker.name.lastName(),
+    sport: "63315d0903beff9752dd8e4b",
     level: "Débutant",
     gender: "Homme",
-    handicap: faker.datatype.boolean(),
     max: 30,
     date: "06/03/2000",
+    period: {
+      start: "1665058293",
+      end: "1665663093",
+    },
     admin: "6331760ae98d6c76841f590e",
-    country: faker.address.country(),
-    address: faker.address.streetAddress(),
+    country: "France",
+    address: "2 rue de l'horloge",
     city: faker.address.cityName(),
     zipcode: 30000,
+    description: "Ceci est un event cool merci d'y participer",
+    location: {
+      type: "Point",
+      coordinates: [43.836699, 4.360054],
+    },
   };
 };
 
@@ -35,11 +43,25 @@ describe("POST /create/:collection", function () {
 
   it("post json without required fields and should return an error", function (done) {
     const newEvent = {
-      level: faker.word.adverb(),
-      gender: "Homme",
-      handicap: faker.datatype.boolean(),
-      max: 30,
-      country: faker.address.country(),
+      name: null,
+      sport: null,
+      level: null,
+      gender: null,
+      max: null,
+      date: null,
+      period: {
+        start: null,
+        end: null,
+      },
+      admin: null,
+      country: null,
+      address: null,
+      city: null,
+      zipcode: null,
+
+      location: {
+        type: null,
+      },
     };
     request(app)
       .post("/api/v1/create/user")

@@ -6,7 +6,7 @@
   "scripts": {
     "start": "node index.js",
     "dev": "nodemon node index.js",
-    "test": "jest src/test/router/PUT/update_user.test.js"
+    "test": "jest src/test/router/PUT/update_event.test.js"
   },
   "repository": {
     "type": "git",
@@ -20,6 +20,9 @@
   },
   "homepage": "https://github.com/O-clock-Flamel/projet-07-tinder-du-sportif-back#readme",
   "devDependencies": {
+
+  },
+  "dependencies": {
     "@faker-js/faker": "^7.5.0",
     "eslint": "^8.24.0",
     "eslint-config-prettier": "^8.5.0",
@@ -27,9 +30,7 @@
     "morgan": "^1.10.0",
     "nodemon": "^2.0.20",
     "prettier": "^2.7.1",
-    "supertest": "^6.2.4"
-  },
-  "dependencies": {
+    "supertest": "^6.2.4",
     "axios": "^0.27.2",
     "bcrypt": "^5.0.1",
     "cors": "^2.8.5",

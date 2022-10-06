@@ -3,12 +3,12 @@ const { faker } = require("@faker-js/faker");
 
 const { app } = require("../../../app.js");
 
-const user_id = "633e81c6db50460c7b4eacd0";
+const event_id = "63348fecf0805bc06edcbfdc";
 
-describe("GET /user/:id", function () {
+describe("GET /event/:id/chat", function () {
   it("should return a json with status 200", function (done) {
     request(app)
-      .get("/api/v1/user/" + user_id)
+      .get("/api/v1/event/" + event_id + "/chat")
       .set("Accept", "application/json")
       .expect(200)
       .end(function (err, res) {
@@ -17,9 +17,9 @@ describe("GET /user/:id", function () {
       });
   });
 
-  it("should return a json with the same _id", function (done) {
+  it("should return a json with the message key", function (done) {
     request(app)
-      .get("/api/v1/user/" + user_id)
+      .get("/api/v1/event/" + event_id + "/chat")
       .set("Accept", "application/json")
       .expect(200)
       .end((err, res) => {
@@ -27,21 +27,21 @@ describe("GET /user/:id", function () {
           return done(err);
         }
         expect(res.status).toBe(200);
-        expect(JSON.parse(res.text).user._id).toBe(user_id);
+        expect(Object.keys(JSON.parse(res.text)).toString()).toBe("messages");
         return done();
       });
   });
 
-  it("find user with the wrong id should return an error", function (done) {
+  it("find an event with the wrong id should return an error", function (done) {
     request(app)
-      .get("/api/v1/user/" + "r4nd0m1D")
+      .get("/api/v1/event/" + "r4nd0m1D")
       .set("Accept", "application/json")
-      .expect(403)
+      .expect(500)
       .end((err, res) => {
         if (err) {
           return done(err);
         }
-        expect(res.status).toBe(403);
+        expect(res.status).toBe(500);
         return done();
       });
   });
