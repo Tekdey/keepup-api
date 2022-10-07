@@ -6,6 +6,11 @@ const ObjectId = require("mongoose").Types.ObjectId;
 function connect(io) {
   io.on("connection", (socket) => {
     console.log("✅");
+
+    // io.use((socket, data) => {
+    //   //
+    // });
+
     /**
      * Join event sockets listeners
      */

@@ -277,7 +277,7 @@ module.exports = {
           options: { sort: { created_at: -1 } },
           populate: {
             path: "sender",
-            select: "firstname _id",
+            select: "firstname _id image_url",
           },
         })
         .select({ messages: 1, _id: 0 });

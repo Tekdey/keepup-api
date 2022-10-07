@@ -17,6 +17,7 @@ module.exports = {
       if (!messages) {
         createError(403, "No messages found");
       }
+      // console.log(messages);
       res.json(messages);
     } catch (error) {
       next(error);
