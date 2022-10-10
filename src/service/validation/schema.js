@@ -107,10 +107,10 @@ module.exports = {
   update: {
     user() {
       return Joi.object({
-        // firstname: Joi.string(),
-        // lastname: Joi.string(),
-        // gender: Joi.string(),
-        // email: Joi.string().email(),
+        firstname: Joi.string(),
+        lastname: Joi.string(),
+        gender: Joi.string(),
+        email: Joi.string().email(),
         password: Joi.string(),
         image_url: Joi.string(),
         // dob: Joi.string(),

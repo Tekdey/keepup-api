@@ -12,9 +12,6 @@ module.exports = {
      * @returns the document requested
      */
     async findOne(id) {
-      if (!id) {
-        throw error;
-      }
       const searchKey = Object.keys(id)[0];
 
       try {
@@ -35,11 +32,6 @@ module.exports = {
      * @returns the custom document requested
      */
     async getUserView(id) {
-      if (!id) {
-        throw error;
-      }
-      console.log(id);
-
       try {
         return await User.findOne(id, {
           _id: 1,
@@ -62,9 +54,6 @@ module.exports = {
      * @returns the new user just created
      */
     async create(user) {
-      if (!user) {
-        throw error;
-      }
       const newUser = User(user);
 
       await newUser.setPassword(user.password);
@@ -80,11 +69,9 @@ module.exports = {
      * @returns confirmation of the update
      */
     async updateOne(user, newInfo) {
-      if (!user) {
-        throw error;
-      }
-
-      return await User.updateOne(user, newInfo);
+      return await User.findOneAndUpdate(user, newInfo, {
+        returnDocument: "after",
+      });
     },
 
     /**
@@ -95,10 +82,6 @@ module.exports = {
      * @returns confirmation of the update
      */
     async addSport(user, { sports }) {
-      if (!user) {
-        throw error;
-      }
-
       return await User.updateOne(user, sports);
     },
     /**
@@ -120,9 +103,6 @@ module.exports = {
      * @returns the new event just created
      */
     async create(event) {
-      if (!event) {
-        throw error;
-      }
       event.period.start = parseInt(event.period.start.replace(/:/g, ""));
       event.period.end = parseInt(event.period.end.replace(/:/g, ""));
       const newEvent = new Event(event);
@@ -138,9 +118,6 @@ module.exports = {
      * @returns confirmation of the update
      */
     async updateOne(event, newInfo) {
-      if (!event) {
-        throw error;
-      }
       return await Event.updateOne(event, newInfo);
     },
 
@@ -152,9 +129,6 @@ module.exports = {
      * @returns confirmation of the update
      */
     async addUser(event, user) {
-      if (!event) {
-        throw error;
-      }
       return await Event.updateOne(
         { _id: event },
         {
@@ -171,9 +145,6 @@ module.exports = {
      * @returns confirmation of the update
      */
     async removeUser(event, user) {
-      if (!event) {
-        throw error;
-      }
       return await Event.updateOne(
         { _id: event },
         {
@@ -189,9 +160,6 @@ module.exports = {
      * @returns document of the event requestedx
      */
     async findOne(id) {
-      if (!id) {
-        throw error;
-      }
       return Event.findOne({ _id: id })
         .populate({
           path: "participant",
@@ -213,7 +181,7 @@ module.exports = {
     async find(body) {
       let query = {};
       if (typeof body !== "object" && Object.keys(body).length !== 0) {
-        throw error;
+        throw new Error("Error datamapper");
       }
       if (body.sport) {
         query.sport = [body.sport];

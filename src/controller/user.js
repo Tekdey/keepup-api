@@ -156,18 +156,13 @@ module.exports = {
    */
   async update({ body, params: { id: _id } }, res, next) {
     try {
-      const { matchedCount } = await datamapper.user.updateOne(
-        { _id },
-        { ...body }
-      );
-
-      if (!matchedCount) {
-        createError(403, "User not found");
-      }
-
-      res
-        .status(200)
-        .json({ status: "Success", message: "Votre profil a été modifié" });
+      const user = await datamapper.user.updateOne({ _id }, { ...body });
+      console.log("pass");
+      // if (!matchedCount) {
+      //   createError(403, "User not found");
+      // }
+      console.log(user);
+      res.status(200).json({ status: "Success", user });
     } catch (error) {
       next(error);
     }
