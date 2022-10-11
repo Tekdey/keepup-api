@@ -273,6 +273,57 @@ router.get("/event/:id/chat", authenticate, message.getMessagesByEvent);
  */
 router.get("/sports", authenticate, activity.getSports);
 
+/**
+ * GET /api/v1/sports
+ * @summary Route to get an event's data
+ * @tags Activity
+ * @return {object} 200 - success response - application/json
+ * @return {string} 403 - 	Forbidden
+ * @example response - 403 - example error response
+ * "No sports found"
+ * @example response - 200 - example success response
+ * {
+ *   [
+ *	    {
+ *		"period": {
+ *			"start": 1665058293,
+ *			"end": 1665663093
+ *		},
+ *		"location": {
+ *			"type": "Point",
+ *			"coordinates": [
+ *				43.836699,
+ *				4.360054
+ *			]
+ *		},
+ *		"_id": "634526aea3f53127fed200ff",
+ *		"name": "De la randonné ca vous dit ?",
+ *		"sport": {
+ *			"_id": "63315c7e03beff9752dd8e3f",
+ *			"category": "sports d'endurance",
+ *			"sport": "randonnée ",
+ *			"icon": "https://firebasestorage.googleapis.com/v0/b/keepup-oclock.appspot.com/o/icon%2F1664179301088?alt=media&token=86df2f0c-87d4-418e-88cd-46ec005f74e4",
+ *			"__v": 0
+ *		},
+ *		"level": "Débutant",
+ *		"max": 30,
+ *		"date": "2000-06-02T22:00:00.000Z",
+ *		"messages": [],
+ *		"admin": {
+ *			"_id": "6345266a5213ced3e99d5328",
+ *			"firstname": "Nathan"
+ *		},
+ *		"participant": [],
+ *		"country": "France",
+ *		"address": "2 rue de l'horloge",
+ *		"city": "Nimes",
+ *		"zipcode": 30000,
+ *		"created_at": "2022-10-11T08:17:50.299Z",
+ *		"__v": 0
+ *	    }
+ *  ]
+ * }
+ */
 router.get("/user/event/:id", event.findAllEventByUser);
 
 module.exports = router;
