@@ -2,6 +2,7 @@ const { createError } = require("../helper/error/handler");
 const { User, Message } = require("../schema");
 const { Activity } = require("../schema");
 const { Event } = require("../schema");
+const ObjectId = require("mongoose").Types.ObjectId;
 
 module.exports = {
   user: {
@@ -219,6 +220,29 @@ module.exports = {
     async deleteOne(id) {
       const { deletedCount } = await Event.deleteOne({ _id: id });
       return deletedCount;
+    },
+    /**
+     * Method to get all user event by his id
+     * ExpressMiddleware signature
+     * @param {import("mongoose").ObjectId} id objectId
+     * @returns document(s) of the event(s) found
+     */
+    async findAllEventByUser(id) {
+      const event = await Event.find({
+        $or: [{ admin: new ObjectId(id) }, { participant: new ObjectId(id) }],
+      })
+        .populate({
+          path: "admin",
+          select: "_id firstname",
+        })
+        .populate({
+          path: "sport",
+        })
+        .select({
+          gender: 0,
+        });
+
+      return event;
     },
   },
   activity: {

@@ -273,4 +273,6 @@ router.get("/event/:id/chat", authenticate, message.getMessagesByEvent);
  */
 router.get("/sports", authenticate, activity.getSports);
 
+router.get("/user/event/:id", event.findAllEventByUser);
+
 module.exports = router;
