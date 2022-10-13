@@ -73,8 +73,8 @@ module.exports = {
           }),
         })
         .required()
-        .min(8)
-        .max(19);
+        .min(9)
+        .max(20);
     },
   },
   search() {
@@ -96,6 +96,7 @@ module.exports = {
         .allow(null)
         .allow(""),
       location: Joi.object().keys({
+        radius: Joi.number().required(),
         type: Joi.string(),
         coordinates: Joi.array().items(
           Joi.number().required(),
