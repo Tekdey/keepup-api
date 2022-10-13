@@ -203,8 +203,9 @@ module.exports = {
         query["period.start"] = { $gte: start, $lt: end };
       }
       if (body.location.coordinates.length !== 0) {
+        const radius = body.location.radius * 1000;
         query.location = {
-          $near: { $geometry: body.location, $maxDistance: 10000 },
+          $near: { $geometry: body.location, $maxDistance: radius },
         };
       }
       return await Event.find(query)
