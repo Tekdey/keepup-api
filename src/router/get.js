@@ -21,6 +21,7 @@ const { authenticate } = require("../middleware");
  *         "gender": [
  *           "Homme",
  *           "Femme",
+ *           "Non" binaire,
  *           "Non précisé"
  *         ],
  *         "sports": [
