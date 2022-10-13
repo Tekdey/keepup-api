@@ -19,7 +19,7 @@ const User = new Schema({
     type: SchemaTypes.String,
     default: "Non précisé",
     enum: {
-      values: ["Homme", "Femme", "Non précisé"],
+      values: ["Homme", "Femme","Non binaire", "Non précisé"],
       message: `La clé '{VALUE}' n'est pas autorisé`,
     },
   },
