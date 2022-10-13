@@ -207,10 +207,18 @@ module.exports = {
           $near: { $geometry: body.location, $maxDistance: 10000 },
         };
       }
-      return await Event.find(query).populate({
-        path: "participant",
-        select: "_id  image_url firstname",
-      });
+      return await Event.find(query)
+        .populate({
+          path: "participant",
+          select: "_id  image_url firstname",
+        })
+        .populate({
+          path: "sport",
+        })
+        .populate({
+          path: "admin",
+          select: "firstname _id image_url",
+        });
     },
     /**
      * Method to delete an event by id

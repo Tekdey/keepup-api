@@ -26,6 +26,9 @@ module.exports = {
       try {
         await event.save();
       } catch (error) {
+        console.log("______________");
+        console.log(error);
+        console.log("______________");
         return next(error);
       }
 
