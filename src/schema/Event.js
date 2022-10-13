@@ -90,7 +90,8 @@ const Event = new Schema({
   },
 });
 
-Event.index({ city: 1, zipcode: 1, date: 1, sport: 1, level: 1 });
+Event.index({ city: 1, zipcode: 1, date: 1, sport: 1, level: 1, location: 1 });
+Event.index({ location: "2d" });
 
 Event.pre("save", function (next) {
   this.created_at = Date.now();

@@ -194,6 +194,7 @@ module.exports = {
         query.genre = [body.genre];
       }
       if (body.date) {
+        const test = body.date.from;
         query.date = { $gte: body.date.from, $lt: body.date.to };
       }
       if (body.period) {

@@ -112,7 +112,7 @@ router.post(
  */
 router.post(
   "/events",
-  [authenticate, validator.search(schema.search)],
+  [validator.search(schema.search)],
   controller.event.findEvents
 );
 
