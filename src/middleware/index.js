@@ -5,7 +5,6 @@ module.exports = {
   authenticate(req, res, next) {
     //
     const bearer = req.headers["authorization"];
-
     let token;
     if (bearer && bearer.startsWith("Bearer ")) {
       token = bearer.split(" ")[1];

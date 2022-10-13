@@ -164,11 +164,11 @@ module.exports = {
       return Event.findOne({ _id: id })
         .populate({
           path: "participant",
-          select: "_id  image_url firstname  gender dob city sports",
+          select: "_id  image_url firstname",
         })
         .populate({
           path: "admin",
-          select: "_id  image_url firstname  gender dob city sports",
+          select: "_id  image_url firstname",
         })
         .populate("sport");
     },
