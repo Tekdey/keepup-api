@@ -7,8 +7,22 @@ function connect(io) {
   io.on("connection", (socket) => {
     console.log("✅");
 
-    // io.use((socket, data) => {
-    //   //
+    // io.use((socket, next) => {
+    //   const token = socket.handshake.auth.token;
+    //   const access = token.access
+    //    try{
+    //      jwt.verify({
+    //          access: token.access,
+    //      }, function(err, user) {
+    //            if(err){
+    //              next(createError(401, error))
+    //            }
+    //            socket.user = user
+    //            next()
+    //       });
+    //    }catch(error){
+    //      next(error)
+    //    }
     // });
 
     /**
