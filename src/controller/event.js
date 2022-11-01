@@ -49,7 +49,7 @@ module.exports = {
   async findEvents({ body }, res, next) {
     try {
       const events = await datamapper.event.find(body);
-
+      console.log(events.length);
       return res.status(200).json(events);
     } catch (error) {
       next(error);

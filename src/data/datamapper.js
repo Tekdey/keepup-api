@@ -93,6 +93,17 @@ module.exports = {
      */
     async deleteOne(id) {
       const { deletedCount } = await User.deleteOne({ _id: id });
+      await Event.updateMany(
+        {
+          participant: { $elemMatch: { $eq: id } },
+        },
+        {
+          $pull: { participant: id },
+        }
+      );
+      await Event.deleteMany({ admin: id });
+      await Message.deleteMany({ sender: id });
+
       return deletedCount;
     },
   },
@@ -204,6 +215,7 @@ module.exports = {
       }
       if (body.location.coordinates.length !== 0) {
         const radius = body.location.radius * 1000;
+
         query.location = {
           $near: { $geometry: body.location, $maxDistance: radius },
         };
