@@ -3,6 +3,9 @@ const { Schema, SchemaTypes } = mongoose;
 const bcrypt = require("bcrypt");
 
 const User = new Schema({
+  name: {
+    type: SchemaTypes.String,
+  },
   firstname: {
     type: SchemaTypes.String,
     required: [true, "Le prénom est requis"],

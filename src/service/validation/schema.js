@@ -27,6 +27,7 @@ module.exports = {
   create: {
     user() {
       return Joi.object({
+        name: Joi.string(),
         firstname: Joi.string().required(),
         lastname: Joi.string().required(),
         handicap: Joi.boolean(),
