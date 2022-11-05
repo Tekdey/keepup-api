@@ -29,7 +29,7 @@ module.exports = {
       return Joi.object({
         firstname: Joi.string().required(),
         lastname: Joi.string().required(),
-        // handicap: Joi.boolean().required(),
+        handicap: Joi.boolean(),
         gender: Joi.string(),
         email: Joi.string().email().required(),
         password: Joi.string().required(),
