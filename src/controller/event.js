@@ -22,7 +22,7 @@ module.exports = {
   async create({ body }, res, next) {
     try {
       const event = await datamapper.event.create(body);
-
+      console.log(event);
       try {
         await event.save();
       } catch (error) {
@@ -31,7 +31,8 @@ module.exports = {
         console.log("______________");
         return next(error);
       }
-
+      console.log("----------======----------");
+      console.log(event);
       return res.status(200).json(event);
     } catch (error) {
       next(error);
@@ -48,8 +49,9 @@ module.exports = {
    */
   async findEvents({ body }, res, next) {
     try {
+      console.log(body);
       const events = await datamapper.event.find(body);
-      console.log(events.length);
+      console.log(events);
       return res.status(200).json(events);
     } catch (error) {
       next(error);
@@ -186,6 +188,15 @@ module.exports = {
   async findAllEventByUser({ params: { id } }, res, next) {
     try {
       const event = await datamapper.event.findAllEventByUser({ id });
+
+      res.status(200).json(event);
+    } catch (error) {
+      next(error);
+    }
+  },
+  async findAllEventCreatedByUser({ params: { id } }, res, next) {
+    try {
+      const event = await datamapper.event.findAllEventCreatedByUser({ id });
 
       res.status(200).json(event);
     } catch (error) {

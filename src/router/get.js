@@ -326,5 +326,6 @@ router.get("/sports", authenticate, activity.getSports);
  * }
  */
 router.get("/user/event/:id", event.findAllEventByUser);
+router.get("/user/event/admin/:id", event.findAllEventCreatedByUser);
 
 module.exports = router;
