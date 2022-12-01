@@ -93,6 +93,17 @@ module.exports = {
      */
     async deleteOne(id) {
       const { deletedCount } = await User.deleteOne({ _id: id });
+      await Event.updateMany(
+        {
+          participant: { $elemMatch: { $eq: id } },
+        },
+        {
+          $pull: { participant: id },
+        }
+      );
+      await Event.deleteMany({ admin: id });
+      await Message.deleteMany({ sender: id });
+
       return deletedCount;
     },
   },
@@ -106,8 +117,10 @@ module.exports = {
     async create(event) {
       event.period.start = parseInt(event.period.start.replace(/:/g, ""));
       event.period.end = parseInt(event.period.end.replace(/:/g, ""));
+      console.log(event);
       const newEvent = new Event(event);
-
+      console.log("------------");
+      console.log(newEvent);
       return newEvent;
     },
 
@@ -197,6 +210,7 @@ module.exports = {
         const test = body.date.from;
         query.date = { $gte: body.date.from, $lt: body.date.to };
       }
+
       if (body.period) {
         const start = parseInt(body.period.start.replace(/:/g, ""));
         const end = parseInt(body.period.end.replace(/:/g, ""));
@@ -241,6 +255,21 @@ module.exports = {
       const event = await Event.find({
         $or: [{ admin: new ObjectId(id) }, { participant: new ObjectId(id) }],
       })
+        .populate({
+          path: "admin",
+          select: "_id firstname",
+        })
+        .populate({
+          path: "sport",
+        })
+        .select({
+          gender: 0,
+        });
+
+      return event;
+    },
+    async findAllEventCreatedByUser(id) {
+      const event = await Event.find({ admin: new ObjectId(id) })
         .populate({
           path: "admin",
           select: "_id firstname",

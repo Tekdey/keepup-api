@@ -81,16 +81,14 @@ const Event = new Schema({
     coordinates: { type: [SchemaTypes.Number], required: true },
   },
   description: {
-    type: {
-      type: SchemaTypes.String,
-    },
+    type: SchemaTypes.String,
   },
   created_at: {
     type: SchemaTypes.Date,
   },
 });
 
-Event.index({ city: 1, zipcode: 1, date: 1, sport: 1, level: 1 });
+Event.index({ location: 1, city: 1, zipcode: 1, date: 1, sport: 1, level: 1 });
 
 Event.pre("save", function (next) {
   this.created_at = Date.now();

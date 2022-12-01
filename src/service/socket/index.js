@@ -46,7 +46,7 @@ function connect(io) {
      * Send message sockets listeners
      */
     socket.on("user:send", async (message, callback) => {
-      console.log(message);
+      
       socket.in(socket.room).emit("user:send", message);
       try {
         if (
